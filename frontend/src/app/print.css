@@ -1,0 +1,102 @@
+/*
+ * Print styles for the report page.
+ *
+ * The visitor's own browser prints the report to PDF, so the server never
+ * needs a headless Chromium. Save-as-PDF is built into every browser.
+ *
+ * The screen design is dark; paper is white, so the palette is inverted here
+ * rather than shipping a second template.
+ */
+
+@media print {
+  /* Chrome/Edge honour this for backgrounds and gradients. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  /* Chrome anything that is navigation or interaction, not content. */
+  header,
+  footer,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Flatten the dark card treatment onto paper. */
+  .ow-card,
+  section,
+  .ow-card section {
+    background: #fff !important;
+    border-color: #d8dce5 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    break-inside: avoid;
+  }
+
+  /* Decorative glows and auroras waste ink and mean nothing on paper. */
+  [class*='blur-'],
+  [class*='animate-'],
+  canvas {
+    display: none !important;
+  }
+
+  /* Body copy: the muted greys are unreadable when printed. */
+  p,
+  li,
+  dd,
+  dt,
+  span,
+  td,
+  th {
+    color: #333 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: #0b1220 !important;
+    break-after: avoid;
+  }
+
+  /* Keep the brand accents — they carry meaning in the scores. */
+  .text-brand,
+  .text-brand-soft {
+    color: #c50f40 !important;
+  }
+  .text-cyan {
+    color: #0284a8 !important;
+  }
+
+  /* SVG gauges keep their stroke colours; only the track needs lightening. */
+  svg circle[stroke='rgba(255,255,255,.07)'] {
+    stroke: #e6e9f0 !important;
+  }
+
+  table {
+    break-inside: auto;
+  }
+  tr {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none !important;
+  }
+
+  /* Start each major section on a fresh page where it would otherwise split. */
+  .print-page-break {
+    break-before: page;
+  }
+}

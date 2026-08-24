@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Business Audit Report</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 40px; color: #333; }
+        .header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 2px solid #0056b3; }
+        .header h1 { margin: 0; color: #0056b3; font-size: 32px; }
+        .header p { margin: 5px 0; color: #666; font-size: 18px; }
+        
+        .score-box { background: #f8f9fa; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 30px; border: 1px solid #dee2e6; }
+        .score-box h2 { margin: 0; font-size: 24px; color: #333; }
+        .score-box .score { font-size: 48px; font-weight: bold; color: #0056b3; margin: 10px 0; }
+        
+        .module { margin-bottom: 30px; page-break-inside: avoid; }
+        .module h3 { color: #0056b3; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        
+        .metric-row { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .metric-col { flex: 1; background: #fff; border: 1px solid #eee; padding: 15px; margin: 0 5px; border-radius: 5px; text-align: center; }
+        .metric-col .label { font-size: 12px; color: #666; text-transform: uppercase; }
+        .metric-col .value { font-size: 24px; font-weight: bold; margin-top: 5px; color: #333; }
+        
+        .gap-list { margin: 0; padding-left: 20px; }
+        .gap-list li { margin-bottom: 8px; color: #dc3545; }
+        
+        .ai-analysis { background: #f0f8ff; padding: 20px; border-radius: 8px; border-left: 5px solid #0056b3; margin-top: 30px; }
+        .ai-analysis h3 { margin-top: 0; color: #0056b3; }
+        .ai-analysis p { margin-bottom: 10px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Digital Business Audit Report</h1>
+        <p>Prepared for: <strong>{{ business_name }}</strong></p>
+        <p>Location: {{ location }} | URL: {{ website_url }}</p>
+    </div>
+    
+    <div class="score-box">
+        <h2>Overall Audit Score</h2>
+        <div class="score">{{ overall_score }} / 100</div>
+    </div>
+    
+    <div class="module">
+        <h3>1. AI & Local Search Visibility (AEO/GEO)</h3>
+        <div class="metric-row">
+            <div class="metric-col">
+                <div class="label">AEO Score</div>
+                <div class="value">{{ module1_aeo_geo.aeo_score }}%</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">GEO Score</div>
+                <div class="value">{{ module1_aeo_geo.geo_score }}%</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Combined Score</div>
+                <div class="value">{{ module1_aeo_geo.combined_score }}%</div>
+            </div>
+        </div>
+        <p><strong>Competitors Mentioned Instead:</strong> 
+        {% if module1_aeo_geo.competitor_names_appearing_instead %}
+            {{ module1_aeo_geo.competitor_names_appearing_instead | join(', ') }}
+        {% else %}
+            None detected
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="module">
+        <h3>2. Website Health & Performance</h3>
+        <div class="metric-row">
+            <div class="metric-col">
+                <div class="label">Mobile Score</div>
+                <div class="value">{{ module2_website_health.mobile_score }}</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Desktop Score</div>
+                <div class="value">{{ module2_website_health.desktop_score }}</div>
+            </div>
+        </div>
+        <p><strong>Top Technical Issues:</strong></p>
+        <ul class="gap-list">
+            {% for issue in module2_website_health.top_3_issues %}
+            <li>{{ issue }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="module">
+        <h3>3. Search Engine Optimization (SEO)</h3>
+        <div class="metric-row">
+            <div class="metric-col">
+                <div class="label">Domain Authority</div>
+                <div class="value">{{ module3_seo.domain_authority }}</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Monthly Traffic</div>
+                <div class="value">{{ module3_seo.organic_traffic_estimate }}</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Backlinks</div>
+                <div class="value">{{ module3_seo.backlink_count }}</div>
+            </div>
+        </div>
+        <p><strong>Top Ranked Keywords:</strong> {{ module3_seo.top_keywords | join(', ') }}</p>
+    </div>
+    
+    <div class="module">
+        <h3>4. Competitor Comparison</h3>
+        <div class="metric-row">
+            <div class="metric-col">
+                <div class="label">Your Authority</div>
+                <div class="value">{{ module5_competitors.metrics_comparison.business_domain_authority }}</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Competitor Avg</div>
+                <div class="value">{{ module5_competitors.metrics_comparison.average_domain_authority }}</div>
+            </div>
+        </div>
+        <p><strong>You are behind:</strong> 
+            {% if module5_competitors.where_behind %}
+                {{ module5_competitors.where_behind | join(', ') }}
+            {% else %}
+                None! You lead the pack.
+            {% endif %}
+        </p>
+    </div>
+    <div class="module">
+        <h3>5. Online Reputation (Google Business Profile)</h3>
+        <div class="metric-row">
+            <div class="metric-col">
+                <div class="label">Star Rating</div>
+                <div class="value">{{ module4_reputation.star_rating }}</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Total Reviews</div>
+                <div class="value">{{ module4_reputation.review_count }}</div>
+            </div>
+            <div class="metric-col">
+                <div class="label">Profile Completion</div>
+                <div class="value">{{ module4_reputation.profile_completeness }}%</div>
+            </div>
+        </div>
+        <p><strong>Top Reputation Gaps:</strong></p>
+        <ul class="gap-list">
+            {% for gap in module4_reputation.top_2_gaps %}
+            <li>{{ gap }}</li>
+            {% else %}
+            <li style="color: green;">Looking good! No major gaps detected.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="module">
+        <h3>6. Social Media Presence</h3>
+        <p><strong>Platforms Found:</strong> 
+            {% if module6_social.platforms_found %}
+                {{ module6_social.platforms_found | join(', ') }}
+            {% else %}
+                None detected on homepage.
+            {% endif %}
+        </p>
+        <p><strong>Activity Level:</strong> {{ module6_social.activity_level }}</p>
+    </div>
+    
+    {% if ai_analysis and ai_analysis.get('deep_analysis') %}
+    <div class="ai-analysis">
+        <h3>AI Deep Analysis & Summary</h3>
+        <p><strong>Overall Verdict:</strong> {{ ai_analysis.deep_analysis.overall_summary }}</p>
+        
+        <h4>Critical Gaps to Fix:</h4>
+        <ul class="gap-list">
+            {% for gap in ai_analysis.deep_analysis.critical_gaps %}
+            <li>{{ gap }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+# Minimal config so the CLI can push migrations to the linked project.
+project_id = "ykwmqixhqfzuucnnenmv"

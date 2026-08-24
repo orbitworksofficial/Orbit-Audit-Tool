@@ -1,0 +1,40 @@
+# Render blueprint for the Python audit service.
+# Render reads this automatically when you point it at the repo.
+services:
+  - type: web
+    name: orbitworks-audit-api
+    runtime: python
+    plan: free             # Playwright removed, so 512MB is enough.
+    region: oregon
+    rootDir: "ORBIT WORKS BUSINESS AUDIT"
+
+    # No Chromium needed: PDFs are printed by the visitor's browser.
+    buildCommand: pip install -r requirements.txt
+
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+
+    healthCheckPath: /docs
+
+    envVars:
+      - key: ENVIRONMENT
+        value: production          # turns uvicorn auto-reload off
+      - key: PYTHON_VERSION
+        value: "3.12.7"            # 3.14 has thin wheel coverage
+
+      # Set these in the Render dashboard, not here — never commit secrets.
+      - key: GROQ_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GOOGLE_PAGESPEED_API_KEY
+        sync: false
+      - key: DATAFORSEO_LOGIN
+        sync: false
+      - key: DATAFORSEO_PASSWORD
+        sync: false
+      - key: PERPLEXITY_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false

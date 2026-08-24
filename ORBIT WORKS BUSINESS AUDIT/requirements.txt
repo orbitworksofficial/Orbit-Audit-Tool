@@ -1,0 +1,13 @@
+# playwright removed: PDFs are now printed by the visitor's browser.
+# Re-add it (plus `playwright install chromium`) only if you need
+# server-side PDF generation, e.g. for automated email delivery.
+fastapi
+pydantic
+uvicorn
+httpx
+beautifulsoup4
+groq
+supabase
+jinja2
+python-dotenv
+anthropic
