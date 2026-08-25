@@ -82,7 +82,7 @@ export default function LatestReportPage() {
         className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[900px] max-w-[95vw] -translate-x-1/2 blur-3xl"
         style={{
           background:
-            'radial-gradient(ellipse at 45% 25%, rgba(0,212,255,.10), transparent 62%), radial-gradient(ellipse at 60% 50%, rgba(243,18,78,.10), transparent 64%)',
+            'radial-gradient(ellipse at 45% 25%, rgba(243,18,78,.10), transparent 62%), radial-gradient(ellipse at 60% 50%, rgba(243,18,78,.10), transparent 64%)',
         }}
       />
       <div className="relative z-10 mx-auto w-full max-w-5xl">

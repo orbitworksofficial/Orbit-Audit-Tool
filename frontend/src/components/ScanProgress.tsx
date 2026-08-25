@@ -37,7 +37,7 @@ export default function ScanProgress() {
 
   return (
     <div className="ow-card relative w-full max-w-lg p-8 text-center">
-      <span className="absolute inset-x-0 top-0 h-0.5 animate-scan bg-gradient-to-r from-transparent via-cyan to-transparent opacity-70" />
+      <span className="absolute inset-x-0 top-0 h-0.5 animate-scan bg-gradient-to-r from-transparent via-brand-100 to-transparent opacity-70" />
 
       <div className="relative mx-auto mb-7 h-24 w-24">
         <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
@@ -54,7 +54,7 @@ export default function ScanProgress() {
             cy="50"
             r="42"
             fill="none"
-            stroke="#00D4FF"
+            stroke="#f3124e"
             strokeWidth="6"
             strokeLinecap="round"
             strokeDasharray={2 * Math.PI * 42}
@@ -64,7 +64,7 @@ export default function ScanProgress() {
         </svg>
         <span className="absolute inset-0 flex items-center justify-center font-display text-xl font-bold">
           {pct}
-          <span className="text-cyan">%</span>
+          <span className="text-brand-100">%</span>
         </span>
       </div>
 
@@ -81,7 +81,7 @@ export default function ScanProgress() {
           <span
             key={s}
             className={`h-1.5 rounded-full transition-all duration-500 ${
-              i <= stage ? 'w-8 bg-cyan' : 'w-4 bg-white/10'
+              i <= stage ? 'w-8 bg-brand' : 'w-4 bg-white/10'
             }`}
           />
         ))}

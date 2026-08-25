@@ -1,0 +1,406 @@
+/*
+ * OrbitScanner theme tokens.
+ *
+ * Dark, high-contrast, technical: near-black canvas, a single crimson accent,
+ * very tight negative tracking on display headings, monospace for small
+ * technical labels.
+ *
+ * Scoping note: every rule here is namespaced under .ow-theme (applied on
+ * <body>) rather than bare element selectors, so nothing leaks into future
+ * pages or third-party markup.
+ */
+
+:root {
+  --ow-background: #050912;
+  --ow-foreground: #f7f9ff;
+  --ow-card: #111a2b;
+  --ow-muted: #9aa8bf;
+  --ow-border: #263653;
+  --ow-accent: #f3124e;
+  --ow-accent-soft: #4a1028;
+  --ow-ink: #050912;
+  --ow-white: #f7f9ff;
+  --ow-radius: 0.35rem;
+
+  /* Accent tints — keep contrast on dark without flattening to one colour. */
+  --ow-accent-100: #ff5c82;
+  --ow-accent-200: #ff6e90;
+  --ow-accent-300: #ff7d9c;
+  --ow-accent-400: #ff8fa8;
+
+  /* The single success colour: live dots, positive deltas. */
+  --ow-success: #61e2a2;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+.ow-theme {
+  background: var(--ow-background);
+  color: var(--ow-foreground);
+  /* No overflow rule here: setting it on body creates a second scrollbar
+     alongside the one on html. */
+}
+
+/* Headings rely on an explicit weight. Tailwind Preflight resets headings to
+   inherit, so without this they render at body weight. */
+.ow-theme h1,
+.ow-theme h2,
+.ow-theme h3 {
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 0.94;
+}
+
+.ow-theme a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ow-theme ::selection {
+  background: var(--ow-accent);
+  color: var(--ow-white);
+}
+
+/* ---------------------------------------------------------------------------
+   Display headings — the signature of this design
+   --------------------------------------------------------------------------- */
+
+.ow-display {
+  font-size: clamp(40px, 5.2vw, 76px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.085em;
+  /* Centred display headings stretch the full column and break in the wrong
+     places without a ch-based cap. */
+  max-width: 15ch;
+}
+
+.ow-display-sm {
+  font-size: clamp(32px, 3.6vw, 52px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.07em;
+  max-width: 18ch;
+}
+
+/* Two-tone headings: second line in the accent. A span, never a gradient. */
+.ow-display .ow-accent-line,
+.ow-display-sm .ow-accent-line {
+  color: var(--ow-accent);
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   Eyebrow labels — every section opens with one
+   --------------------------------------------------------------------------- */
+
+.ow-eyebrow {
+  font-family: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ow-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+/* Small technical labels elsewhere (units, captions, table headers). */
+.ow-mono {
+  font-family: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ow-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons — square-ish, not pills
+   --------------------------------------------------------------------------- */
+
+.ow-btn,
+.ow-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.ow-btn {
+  background: var(--ow-accent);
+  color: var(--ow-white);
+  border: 1px solid var(--ow-accent);
+}
+
+.ow-btn-outline {
+  background: transparent;
+  color: var(--ow-foreground);
+  border: 1px solid rgba(255, 255, 255, 0.27);
+}
+
+.ow-btn:hover,
+.ow-btn-outline:hover {
+  transform: translateY(-3px);
+}
+
+.ow-btn-outline:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.ow-btn:disabled,
+.ow-btn-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Card grid — shared hairlines, so cards read as one table
+   --------------------------------------------------------------------------- */
+
+.ow-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--ow-border);
+  border: 1px solid var(--ow-border);
+}
+
+.ow-grid-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 28px 24px;
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ow-grid-card:hover {
+  background: rgba(243, 18, 78, 0.09);
+  transform: translateY(-7px);
+}
+
+.ow-grid-card .ow-index {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ow-muted);
+}
+
+.ow-grid-card .ow-arrow {
+  position: absolute;
+  bottom: 16px;
+  right: 18px;
+  color: var(--ow-accent);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.ow-grid-card:hover .ow-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Standalone raised surface (reports, forms, auth panels). */
+.ow-surface {
+  background: var(--ow-card);
+  border: 1px solid var(--ow-border);
+  border-radius: var(--ow-radius);
+}
+
+/* ---------------------------------------------------------------------------
+   Section rhythm — alternate background and ink, one light break
+   --------------------------------------------------------------------------- */
+
+.ow-section {
+  padding: clamp(80px, 10vw, 150px) clamp(20px, 5vw, 56px);
+}
+
+.ow-section-alt {
+  background: var(--ow-ink);
+}
+
+.ow-section-light {
+  background: #eef2fa;
+  color: #0b1220;
+}
+
+.ow-section-light .ow-mono,
+.ow-section-light .ow-muted {
+  color: #55627a;
+}
+
+.ow-section-light h1,
+.ow-section-light h2,
+.ow-section-light h3 {
+  color: #0b1220;
+}
+
+/* ---------------------------------------------------------------------------
+   Stat blocks
+   --------------------------------------------------------------------------- */
+
+.ow-stat {
+  font-size: clamp(46px, 7vw, 78px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.ow-stat-unit {
+  color: var(--ow-accent);
+}
+
+.ow-stat-caption {
+  color: var(--ow-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+/* ---------------------------------------------------------------------------
+   Ticker — full-bleed accent bar
+   --------------------------------------------------------------------------- */
+
+.ow-ticker {
+  background: var(--ow-accent);
+  color: var(--ow-white);
+  overflow: hidden;
+  /* Pinned height rather than padding: the hero subtracts this exact value to
+     sit flush above the ticker, so it must not drift with font metrics. */
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.ow-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ow-marquee 26s linear infinite;
+}
+
+.ow-ticker-item {
+  font-family: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-right: 40px;
+}
+
+@keyframes ow-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Decorative overlays
+   Anything full-bleed MUST NOT intercept clicks, or it silently swallows every
+   interaction beneath it while looking perfectly fine.
+   --------------------------------------------------------------------------- */
+
+.ow-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ow-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(243, 18, 78, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 18, 78, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(
+    ellipse 85% 65% at 50% 42%,
+    #000 30%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 65% at 50% 42%,
+    #000 30%,
+    transparent 100%
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll progress bar
+   --------------------------------------------------------------------------- */
+
+.ow-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--ow-accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 300;
+}
+
+/* ---------------------------------------------------------------------------
+   Reveal on scroll
+   --------------------------------------------------------------------------- */
+
+.ow-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ow-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — kill all of it
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ow-theme *,
+  .ow-theme *::before,
+  .ow-theme *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ow-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ow-ticker-track {
+    animation: none;
+  }
+}

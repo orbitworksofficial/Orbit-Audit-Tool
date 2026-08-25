@@ -31,7 +31,7 @@ export default async function DashboardPage() {
       <main className="relative min-h-screen px-5 pb-20 pt-32 sm:px-6">
       <div className="mx-auto w-full max-w-4xl space-y-5">
         <header className="ow-card p-7 sm:p-9">
-          <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-cyan to-transparent" />
+          <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-brand-100 to-transparent" />
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div>
               <h1 className="font-display text-2xl font-bold tracking-tight">
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
               <Link
                 key={r.id}
                 href={`/report/${r.id}`}
-                className="ow-card flex items-center justify-between gap-5 p-5 transition hover:border-cyan/30"
+                className="ow-card flex items-center justify-between gap-5 p-5 transition hover:border-brand/30"
               >
                 <div className="min-w-0">
                   <div className="truncate font-display text-[15px] font-semibold">

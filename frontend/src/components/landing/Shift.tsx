@@ -15,13 +15,13 @@ export default function Shift() {
         className="pointer-events-none absolute -right-36 top-[20%] h-[520px] w-[520px] blur-[24px]"
         style={{
           background:
-            'radial-gradient(circle, rgba(0,212,255,.10), transparent 65%)',
+            'radial-gradient(circle, rgba(243,18,78,.10), transparent 65%)',
         }}
       />
 
       <div className="relative mx-auto max-w-6xl">
         <Reveal>
-          <p className="mb-[clamp(32px,4vw,48px)] text-center text-[11px] font-bold uppercase tracking-[0.17em] text-brand">
+          <p className="ow-eyebrow mb-[clamp(32px,4vw,48px)]">
             The shift happening right now
           </p>
         </Reveal>
@@ -76,26 +76,26 @@ export default function Shift() {
                 className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity duration-[1600ms]"
                 style={{
                   background:
-                    'radial-gradient(circle, rgba(0,212,255,.14), transparent 70%)',
+                    'radial-gradient(circle, rgba(243,18,78,.14), transparent 70%)',
                   opacity: split.shown ? 1 : 0,
                 }}
               />
-              <span className="relative mb-5 inline-block rounded-md bg-cyan/[0.12] px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan">
+              <span className="relative mb-5 inline-block rounded-md bg-brand/[0.12] px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-100">
                 AI search &mdash; the new reality
               </span>
-              <div className="relative rounded-[14px] border border-cyan/20 bg-[rgba(0,30,60,.45)] p-5 shadow-[0_18px_50px_rgba(0,0,0,.4)]">
-                <div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.1em] text-cyan">
-                  <span className="inline-block h-2 w-2 rotate-45 border border-cyan" />
+              <div className="relative rounded-[14px] border border-brand/20 bg-[rgba(0,30,60,.45)] p-5 shadow-[0_18px_50px_rgba(0,0,0,.4)]">
+                <div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.1em] text-brand-100">
+                  <span className="inline-block h-2 w-2 rotate-45 border border-brand" />
                   AI-generated answer
                 </div>
                 <p className="text-[12.5px] leading-[1.85] text-white/75">
                   Based on online presence, reviews, and AI visibility signals, I
                   recommend{' '}
-                  <span className="font-semibold text-cyan">Competitor A</span>{' '}
+                  <span className="font-semibold text-brand-100">Competitor A</span>{' '}
                   as the top option in your area. They have strong digital
                   authority and consistent mentions across AI search platforms.
                   For a reliable alternative,{' '}
-                  <span className="font-semibold text-cyan">Competitor B</span>{' '}
+                  <span className="font-semibold text-brand-100">Competitor B</span>{' '}
                   also ranks well.
                 </p>
                 <p className="mt-4 text-[11.5px] text-brand">
@@ -133,7 +133,7 @@ function SerpRow({
     <div className="flex flex-col gap-1">
       <span
         className="text-[11px]"
-        style={{ color: dim ? 'rgba(16,185,129,.4)' : '#10B981' }}
+        style={{ color: dim ? 'rgba(16,185,129,.4)' : '#61e2a2' }}
       >
         {domain}
       </span>
@@ -167,7 +167,7 @@ function BigStat({
 
   return (
     <div className="text-center">
-      <span className="block font-display text-[clamp(46px,8vw,78px)] font-bold leading-none tracking-[-.04em]">
+      <span className="block ow-display-sm">
         <span ref={ref}>{value.toFixed(decimals)}</span>
         <span className="text-brand">{suffix}</span>
       </span>

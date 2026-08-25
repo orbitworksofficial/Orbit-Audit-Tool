@@ -70,7 +70,7 @@ export default async function TermsPage() {
       <Section heading="Contact">
         <p>
           Questions about these terms:{' '}
-          <span className="text-cyan">hello@orb-itworks.com</span>
+          <span className="text-brand-100">hello@orb-itworks.com</span>
         </p>
       </Section>
     </LegalPage>

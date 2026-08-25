@@ -47,7 +47,7 @@ export default function Proof() {
     >
       <div className="relative mx-auto flex max-w-6xl flex-col items-center">
         <Reveal>
-          <h2 className="mb-[clamp(40px,5vw,60px)] text-center font-display text-[clamp(23px,3.8vw,38px)] font-bold tracking-[-.03em]">
+          <h2 className="mb-[clamp(40px,5vw,60px)] text-center ow-display-sm">
             Businesses already winning in AI search
           </h2>
         </Reveal>
@@ -88,14 +88,14 @@ function QuoteCard({
     <Reveal delay={delay}>
       <div
         ref={tilt}
-        className="flex h-full flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 transition-[border-color,box-shadow] duration-300 hover:border-cyan/[0.22] hover:shadow-[0_22px_60px_rgba(0,0,0,.5)]"
+        className="flex h-full flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 transition-[border-color,box-shadow] duration-300 hover:border-brand/[0.22] hover:shadow-[0_22px_60px_rgba(0,0,0,.5)]"
       >
         <p className="mb-5 flex-1 text-[13.5px] italic leading-[1.8] text-white/75">
           &ldquo;{quote.body}&rdquo;
         </p>
 
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cyan to-brand font-display text-[13px] font-bold text-white">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-100 to-brand font-display text-[13px] font-bold text-white">
             {quote.initials}
           </span>
           <span className="flex flex-col">
@@ -105,7 +105,7 @@ function QuoteCard({
         </div>
 
         <div className="mt-4 flex items-center gap-2.5 border-t border-white/[0.07] pt-4">
-          <span className="font-display text-xl font-bold text-cyan">
+          <span className="font-display text-xl font-bold text-brand-100">
             {quote.metric}
           </span>
           <span className="text-[11.5px] leading-snug text-muted">

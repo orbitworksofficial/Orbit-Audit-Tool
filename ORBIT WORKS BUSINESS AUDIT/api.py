@@ -1,13 +1,33 @@
+# --- Windows event loop policy ---------------------------------------------
+# Must run before anything else creates an event loop.
+#
+# Playwright spawns a node subprocess to drive Chromium. On Windows only the
+# Proactor loop supports subprocesses; under a Selector loop the spawn raises
+# NotImplementedError. Uvicorn's --reload worker installs a Selector loop, so
+# setting this inside pdf_report.py is too late — the loop already exists.
+#
+# No-op on Linux and macOS.
+import sys
+import asyncio
+import warnings
+
+if sys.platform == "win32":
+    # set_event_loop_policy is deprecated in 3.14 but remains the only way to
+    # influence a loop uvicorn creates on our behalf. Silence just this warning
+    # rather than leaving it in the log on every start.
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", DeprecationWarning)
+        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+# ---------------------------------------------------------------------------
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import asyncio
 import uuid
 import json
 import traceback
-import sys
 import os
 
 # Add backend dir to path so we can import our modules
@@ -156,8 +176,20 @@ if os.path.exists(FRONTEND_DIST):
 if __name__ == "__main__":
 
     import uvicorn
-    # Hosting platforms assign the port via $PORT, and auto-reload must be off
-    # in production (it spawns a watcher process and breaks Playwright).
+
+    # Hosting platforms assign the port via $PORT.
     port = int(os.getenv("PORT", 8000))
     is_dev = os.getenv("ENVIRONMENT", "development") == "development"
-    uvicorn.run("api:app", host="0.0.0.0", port=port, reload=is_dev)
+
+    # loop="asyncio" makes uvicorn build the loop from the policy set at the top
+    # of this file. Its default ("auto") constructs a loop through its own path,
+    # which ignores that policy in the --reload worker and yields a Selector
+    # loop — the loop that cannot spawn the subprocess Playwright needs.
+    uvicorn.run(
+        "api:app",
+        host="0.0.0.0",
+        port=port,
+        reload=is_dev,
+        loop="asyncio",
+    )
+

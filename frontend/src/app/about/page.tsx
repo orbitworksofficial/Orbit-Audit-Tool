@@ -40,7 +40,7 @@ export default async function AboutPage() {
           className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[880px] max-w-[95vw] -translate-x-1/2 animate-aurora blur-3xl"
           style={{
             background:
-              'radial-gradient(ellipse at 45% 30%, rgba(0,212,255,.11), transparent 62%), radial-gradient(ellipse at 60% 55%, rgba(243,18,78,.10), transparent 64%)',
+              'radial-gradient(ellipse at 45% 30%, rgba(243,18,78,.11), transparent 62%), radial-gradient(ellipse at 60% 55%, rgba(243,18,78,.10), transparent 64%)',
           }}
         />
 
@@ -100,7 +100,7 @@ export default async function AboutPage() {
           </Reveal>
 
           <Reveal delay={280}>
-            <div className="mt-14 rounded-[18px] border border-cyan/[0.16] bg-cyan/[0.04] p-8 text-center">
+            <div className="mt-14 rounded-[18px] border border-brand/[0.16] bg-brand/[0.04] p-8 text-center">
               <h2 className="font-display text-xl font-bold tracking-tight">
                 See where you stand
               </h2>

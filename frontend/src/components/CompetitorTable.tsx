@@ -43,8 +43,8 @@ export default function CompetitorTable({
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b border-cyan/15 bg-cyan/[0.04]">
-            <td className="py-3.5 text-[13px] font-semibold text-cyan">
+          <tr className="border-b border-brand/15 bg-brand/[0.04]">
+            <td className="py-3.5 text-[13px] font-semibold text-brand-100">
               {yourDomain} <span className="text-[11px] text-muted">(you)</span>
             </td>
             <td className="py-3.5 font-display text-[13px]">
@@ -69,7 +69,7 @@ export default function CompetitorTable({
                       <span
                         className={
                           ahead
-                            ? 'text-[11px] text-emerald-400'
+                            ? 'text-[11px] text-success'
                             : 'text-[11px] text-brand'
                         }
                       >
@@ -94,7 +94,7 @@ export default function CompetitorTable({
       </table>
 
       <p className="mt-4 text-[12px] leading-relaxed text-muted">
-        <span className="text-emerald-400">▼</span> you lead &nbsp;·&nbsp;
+        <span className="text-success">▼</span> you lead &nbsp;·&nbsp;
         <span className="text-brand">▲</span> they lead &nbsp;·&nbsp; median of
         top {rows.length} competitors: DA {m.average_domain_authority}, traffic{' '}
         {fmt(m.average_traffic)}, backlinks {fmt(m.average_backlinks)}

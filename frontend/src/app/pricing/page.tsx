@@ -60,7 +60,7 @@ export default async function PricingPage() {
           className="pointer-events-none absolute left-1/2 top-0 h-[560px] w-[900px] max-w-[95vw] -translate-x-1/2 animate-aurora blur-3xl"
           style={{
             background:
-              'radial-gradient(ellipse at 40% 30%, rgba(0,212,255,.12), transparent 60%), radial-gradient(ellipse at 62% 55%, rgba(243,18,78,.11), transparent 62%)',
+              'radial-gradient(ellipse at 40% 30%, rgba(243,18,78,.12), transparent 60%), radial-gradient(ellipse at 62% 55%, rgba(243,18,78,.11), transparent 62%)',
           }}
         />
 
@@ -90,12 +90,12 @@ export default async function PricingPage() {
                 <div
                   className={`relative flex h-full flex-col overflow-hidden rounded-[20px] border p-8 ${
                     tier.highlight
-                      ? 'border-cyan/25 bg-gradient-to-b from-cyan/[0.07] to-cyan/[0.02]'
+                      ? 'border-brand/25 bg-gradient-to-b from-brand-100/[0.07] to-brand-100/[0.02]'
                       : 'border-white/[0.08] bg-white/[0.03]'
                   }`}
                 >
                   {tier.highlight && (
-                    <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-cyan to-brand" />
+                    <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-100 to-brand" />
                   )}
 
                   <h2 className="font-display text-lg font-semibold">
@@ -118,7 +118,7 @@ export default async function PricingPage() {
                         key={f}
                         className="flex items-start gap-2.5 text-[13px] text-white/75"
                       >
-                        <span className="mt-0.5 text-cyan">&#10003;</span>
+                        <span className="mt-0.5 text-brand-100">&#10003;</span>
                         {f}
                       </li>
                     ))}

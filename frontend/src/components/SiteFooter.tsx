@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from './Logo';
 
 const COLUMNS = [
   {
@@ -6,7 +7,7 @@ const COLUMNS = [
     links: [
       { href: '/scan', label: 'Free AI scan' },
       { href: '/pricing', label: 'Pricing' },
-      { href: '/#method', label: 'How it works' },
+      { href: '/#how', label: 'What we check' },
     ],
   },
   {
@@ -14,7 +15,6 @@ const COLUMNS = [
     links: [
       { href: '/about', label: 'About' },
       { href: '/contact', label: 'Contact' },
-      { href: '/#proof', label: 'Results' },
     ],
   },
   {
@@ -32,14 +32,7 @@ export default function SiteFooter() {
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-10">
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div className="max-w-xs">
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-gradient-to-br from-brand to-brand-deep font-display text-[12px] font-bold text-white">
-                OW
-              </span>
-              <span className="font-display text-[14.5px] font-semibold tracking-tight text-white">
-                Orbit<span className="text-brand">Works</span>
-              </span>
-            </Link>
+            <Logo height={26} />
             <p className="mt-4 text-[13px] leading-relaxed text-muted">
               We make businesses visible inside AI search results &mdash; cited
               by name in ChatGPT, Perplexity and Google AI Overviews.
@@ -73,7 +66,7 @@ export default function SiteFooter() {
             reserved.
           </span>
           <span className="flex items-center gap-2 text-[12px] text-muted">
-            <span className="h-1.5 w-1.5 animate-dot rounded-full bg-cyan" />
+            <span className="h-1.5 w-1.5 animate-dot rounded-full bg-brand" />
             AEO &middot; GEO &middot; SEO
           </span>
         </div>

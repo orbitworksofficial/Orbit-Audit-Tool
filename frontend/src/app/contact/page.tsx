@@ -24,7 +24,7 @@ export default async function ContactPage() {
           className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[860px] max-w-[95vw] -translate-x-1/2 animate-aurora blur-3xl"
           style={{
             background:
-              'radial-gradient(ellipse at 42% 30%, rgba(243,18,78,.12), transparent 60%), radial-gradient(ellipse at 62% 55%, rgba(0,212,255,.11), transparent 62%)',
+              'radial-gradient(ellipse at 42% 30%, rgba(243,18,78,.12), transparent 60%), radial-gradient(ellipse at 62% 55%, rgba(243,18,78,.11), transparent 62%)',
           }}
         />
 
@@ -60,7 +60,7 @@ export default async function ContactPage() {
                 </p>
                 <Link
                   href="/scan"
-                  className="mt-4 inline-block text-[13px] text-cyan transition hover:text-cyan-soft"
+                  className="mt-4 inline-block text-[13px] text-brand-100 transition hover:text-brand-200"
                 >
                   Run a free scan &rarr;
                 </Link>
@@ -76,7 +76,7 @@ export default async function ContactPage() {
                 </p>
                 <a
                   href="mailto:hello@orb-itworks.com"
-                  className="mt-4 inline-block text-[13px] text-cyan transition hover:text-cyan-soft"
+                  className="mt-4 inline-block text-[13px] text-brand-100 transition hover:text-brand-200"
                 >
                   hello@orb-itworks.com &rarr;
                 </a>

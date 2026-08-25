@@ -126,7 +126,7 @@ export default function ScoreExplainer({
       )}
 
       {allClear && (
-        <p className="mt-5 flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/[0.05] px-3.5 py-2.5 text-[12.5px] text-emerald-400">
+        <p className="mt-5 flex items-center gap-2 rounded-lg border border-success/20 bg-success/[0.05] px-3.5 py-2.5 text-[12.5px] text-success">
           <span>&#10003;</span> No major issues detected in this section.
         </p>
       )}

@@ -34,13 +34,13 @@ export default function Method() {
     >
       <div className="relative mx-auto flex max-w-6xl flex-col items-center">
         <Reveal>
-          <p className="mb-4 text-center text-[11px] font-bold uppercase tracking-[0.17em] text-brand">
+          <p className="ow-eyebrow mb-4">
             How we do it
           </p>
         </Reveal>
 
         <Reveal delay={90}>
-          <h2 className="text-center font-display text-[clamp(25px,4.2vw,44px)] font-bold leading-[1.15] tracking-[-.03em]">
+          <h2 className="text-center ow-display-sm">
             Four moves. Measurable AI visibility. 60 days.
           </h2>
         </Reveal>
@@ -75,10 +75,10 @@ function StepCard({
     <Reveal delay={delay}>
       <div
         ref={tilt}
-        className="relative h-full overflow-hidden rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 transition-[border-color,box-shadow] duration-300 hover:border-cyan/[0.28] hover:shadow-[0_22px_60px_rgba(0,0,0,.5)]"
+        className="relative h-full overflow-hidden rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 transition-[border-color,box-shadow] duration-300 hover:border-brand/[0.28] hover:shadow-[0_22px_60px_rgba(0,0,0,.5)]"
       >
-        <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-cyan to-brand opacity-50" />
-        <div className="mb-4 font-display text-[42px] font-bold leading-none text-cyan/20">
+        <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand-100 to-brand opacity-50" />
+        <div className="mb-4 font-display text-[42px] font-bold leading-none text-brand-100/20">
           {step.num}
         </div>
         <h3 className="mb-2 font-display text-base font-semibold">

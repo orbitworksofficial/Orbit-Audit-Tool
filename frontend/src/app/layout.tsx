@@ -1,19 +1,23 @@
 import type { Metadata } from 'next';
-import { Manrope, Space_Grotesk } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import './theme.css';
 import './print.css';
+import ScrollProgress from '@/components/ScrollProgress';
+import SmoothScroll from '@/components/SmoothScroll';
 
-const body = Manrope({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const display = Space_Grotesk({
+// Small technical labels only: eyebrows, units, table headers.
+const mono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-display',
+  weight: ['400', '500'],
+  variable: '--font-mono',
   display: 'swap',
 });
 
@@ -29,8 +33,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${body.variable} ${display.variable}`}>
-      <body>{children}</body>
+    /*
+     * Font variables are declared on <html> and the theme class sits on <body>,
+     * so --font-body and --font-mono are already resolved by the time any rule
+     * inside .ow-theme reads them. Declaring them lower down would let body
+     * styles resolve first and fall back to a serif default.
+     *
+     * --font-display intentionally maps to Inter too: this design uses one
+     * family at different weights and tracking rather than two faces.
+     */
+    <html
+      lang="en"
+      className={`${inter.variable} ${mono.variable}`}
+      style={{ ['--font-display' as string]: 'var(--font-body)' }}
+    >
+      <body className="ow-theme font-body">
+        <ScrollProgress />
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

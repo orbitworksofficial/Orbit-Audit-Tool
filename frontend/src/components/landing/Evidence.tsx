@@ -7,7 +7,7 @@ const CARDS = [
   {
     platform: 'ChatGPT',
     query: 'Best digital agency in [your city]?',
-    glow: 'rgba(0,212,255,.12)',
+    glow: 'rgba(243,18,78,.12)',
     lead: 'Here are some highly recommended agencies in the area:',
     hits: ['Vertex Digital — strong SEO and paid campaigns', 'Nova Creative Co. — excellent brand reputation'],
     miss: '[Your business?] — not appearing',
@@ -15,7 +15,7 @@ const CARDS = [
   {
     platform: 'Perplexity',
     query: 'Top providers near me for [your category]',
-    glow: 'rgba(0,212,255,.12)',
+    glow: 'rgba(243,18,78,.12)',
     lead: 'Based on current search data and citations:',
     hits: ['Apex Solutions consistently ranks as a top choice with a strong online presence and verified reviews…'],
     miss: '[Your business?] — no citations found',
@@ -40,19 +40,19 @@ export default function Evidence() {
         className="pointer-events-none absolute left-1/2 top-[-160px] h-[420px] w-[760px] max-w-[95vw] -translate-x-1/2 blur-[20px]"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(0,212,255,.10), transparent 70%)',
+            'radial-gradient(ellipse at center, rgba(243,18,78,.10), transparent 70%)',
         }}
       />
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center">
         <Reveal>
-          <p className="mb-4 text-center text-[11px] font-bold uppercase tracking-[0.17em] text-brand">
+          <p className="ow-eyebrow mb-4">
             Where your next client is searching right now
           </p>
         </Reveal>
 
         <Reveal delay={90}>
-          <h2 className="text-balance text-center font-display text-[clamp(26px,4.6vw,46px)] font-bold leading-[1.14] tracking-[-.03em]">
+          <h2 className="text-balance text-center ow-display-sm">
             AI is already recommending businesses.
             <br />
             Is yours one of them?
@@ -96,7 +96,7 @@ function EvidenceCard({
     <Reveal delay={delay}>
       <div
         ref={tilt}
-        className="relative h-full overflow-hidden rounded-[18px] border border-white/[0.08] bg-gradient-to-b from-[rgba(18,27,48,.9)] to-[rgba(10,15,30,.85)] p-5 backdrop-blur transition-[border-color,box-shadow] duration-300 hover:border-cyan/30 hover:shadow-[0_22px_60px_rgba(0,0,0,.55)]"
+        className="relative h-full overflow-hidden rounded-[18px] border border-white/[0.08] bg-gradient-to-b from-[rgba(18,27,48,.9)] to-[rgba(10,15,30,.85)] p-5 backdrop-blur transition-[border-color,box-shadow] duration-300 hover:border-brand/30 hover:shadow-[0_22px_60px_rgba(0,0,0,.55)]"
       >
         <span
           className="pointer-events-none absolute -right-12 -top-12 h-[150px] w-[150px] rounded-full"
@@ -125,7 +125,7 @@ function EvidenceCard({
           <ul className="mt-3 space-y-2">
             {card.hits.map((h) => (
               <li key={h}>
-                <span className="rounded bg-cyan/[0.09] px-1.5 py-0.5 font-semibold text-cyan">
+                <span className="rounded bg-brand/[0.09] px-1.5 py-0.5 font-semibold text-brand-100">
                   {h.split(' — ')[0]}
                 </span>
                 {h.includes(' — ') && (

@@ -54,12 +54,12 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                    -translate-x-1/2 -translate-y-1/2 animate-aurora rounded-full blur-3xl"
         style={{
           background:
-            'radial-gradient(circle at 40% 40%, rgba(243,18,78,.14), transparent 60%), radial-gradient(circle at 65% 60%, rgba(0,212,255,.12), transparent 62%)',
+            'radial-gradient(circle at 40% 40%, rgba(243,18,78,.14), transparent 60%), radial-gradient(circle at 65% 60%, rgba(243,18,78,.12), transparent 62%)',
         }}
       />
 
       <div className="ow-card relative z-10 w-full max-w-md p-8">
-        <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/70 to-transparent" />
+        <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-100/70 to-transparent" />
 
         <Link href="/" className="mb-7 flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-gradient-to-br from-brand to-brand-deep font-display text-[12px] font-bold">
@@ -133,7 +133,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             </p>
           )}
           {notice && (
-            <p className="rounded-lg border border-cyan/25 bg-cyan/[0.06] px-3.5 py-2.5 text-[13px] text-cyan">
+            <p className="rounded-lg border border-brand/25 bg-brand/[0.06] px-3.5 py-2.5 text-[13px] text-brand-100">
               {notice}
             </p>
           )}
@@ -153,7 +153,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
           {isSignup ? 'Already have an account? ' : "Don't have an account? "}
           <Link
             href={isSignup ? '/login' : '/signup'}
-            className="text-cyan hover:text-cyan-soft"
+            className="text-brand-100 hover:text-brand-200"
           >
             {isSignup ? 'Sign in' : 'Sign up free'}
           </Link>

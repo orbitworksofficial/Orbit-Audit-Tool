@@ -20,7 +20,7 @@ const CARDS = [
     sub: 'Answer Engine Optimisation',
     body: 'Your content becomes the direct answer. No link. No scroll. You are the answer.',
     chips: ['Google AI Overviews', 'Bing Copilot'],
-    accent: 'cyan' as const,
+    accent: 'soft' as const,
   },
   {
     tag: 'The frontier',
@@ -39,7 +39,7 @@ export default function Territories() {
       <div className="relative mx-auto flex max-w-5xl flex-col items-center">
         <Reveal>
           <p className="mb-[clamp(48px,6vw,72px)] text-balance text-center font-display text-[clamp(21px,3.6vw,38px)] font-semibold leading-[1.45] tracking-[-.025em]">
-            There are <em className="not-italic text-cyan">three ways</em> to be
+            There are <em className="not-italic text-brand-100">three ways</em> to be
             found online in 2026.
             <br />
             Most businesses are{' '}
@@ -58,7 +58,7 @@ export default function Territories() {
         </div>
 
         <Reveal delay={120}>
-          <p className="mt-[clamp(36px,4vw,52px)] max-w-xl rounded-[14px] border border-cyan/[0.14] bg-cyan/[0.03] px-6 py-5 text-center text-[13.5px] leading-relaxed text-muted">
+          <p className="mt-[clamp(36px,4vw,52px)] max-w-xl rounded-[14px] border border-brand/[0.14] bg-brand/[0.03] px-6 py-5 text-center text-[13.5px] leading-relaxed text-muted">
             <strong className="font-semibold text-white">
               Most agencies only work on SEO.
             </strong>{' '}
@@ -80,21 +80,21 @@ function TerritoryCard({
   delay: number;
 }) {
   const tilt = useTilt<HTMLDivElement>();
-  const isCyan = card.accent === 'cyan';
+  const isCyan = card.accent === 'soft';
   const isBrand = card.accent === 'brand';
 
   const border = isCyan
-    ? 'border-cyan/25'
+    ? 'border-brand/25'
     : isBrand
       ? 'border-brand/25'
       : 'border-white/10';
   const bg = isCyan
-    ? 'bg-gradient-to-b from-cyan/[0.07] to-cyan/[0.02]'
+    ? 'bg-gradient-to-b from-brand-100/[0.07] to-brand-100/[0.02]'
     : isBrand
       ? 'bg-gradient-to-b from-brand/[0.08] to-brand/[0.02]'
       : 'bg-white/[0.03]';
   const accentText = isCyan
-    ? 'text-cyan'
+    ? 'text-brand-100'
     : isBrand
       ? 'text-brand'
       : 'text-white';
@@ -109,7 +109,7 @@ function TerritoryCard({
           <span
             className="pointer-events-none absolute left-1/2 top-[-60px] h-[160px] w-[200px] -translate-x-1/2 blur-lg"
             style={{
-              background: `radial-gradient(ellipse, ${isCyan ? 'rgba(0,212,255,.22)' : 'rgba(243,18,78,.24)'}, transparent 70%)`,
+              background: `radial-gradient(ellipse, ${isCyan ? 'rgba(243,18,78,.22)' : 'rgba(243,18,78,.24)'}, transparent 70%)`,
             }}
           />
         )}
@@ -117,7 +117,7 @@ function TerritoryCard({
         <span
           className={`relative inline-block rounded-full px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.13em] ${
             isCyan
-              ? 'bg-cyan/[0.14] text-cyan'
+              ? 'bg-brand/[0.14] text-brand-100'
               : isBrand
                 ? 'bg-brand/[0.14] text-brand'
                 : 'bg-white/[0.08] text-muted'
@@ -129,7 +129,7 @@ function TerritoryCard({
         <div
           className={`relative mx-auto my-5 flex h-[46px] w-[46px] items-center justify-center rounded-full border font-display text-[13px] font-bold ${
             isCyan
-              ? 'border-cyan/35 text-cyan'
+              ? 'border-brand/35 text-brand-100'
               : isBrand
                 ? 'border-brand/40 text-brand'
                 : 'border-white/[0.16] text-white/50'
@@ -154,7 +154,7 @@ function TerritoryCard({
               key={chip}
               className={`rounded-full border px-2.5 py-1 text-[10.5px] ${
                 isCyan
-                  ? 'border-cyan/25 bg-cyan/[0.06] text-cyan'
+                  ? 'border-brand/25 bg-brand/[0.06] text-brand-100'
                   : isBrand
                     ? 'border-brand/25 bg-brand/[0.06] text-brand-soft'
                     : 'border-white/10 bg-white/[0.04] text-white/50'

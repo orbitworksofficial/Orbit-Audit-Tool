@@ -52,7 +52,7 @@ export default function ScanForm() {
 
   return (
     <div className="ow-card relative w-full max-w-2xl p-7 sm:p-9">
-      <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-cyan to-brand opacity-70" />
+      <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-brand-100 to-brand opacity-70" />
 
       {error && (
         <p className="mb-5 rounded-lg border border-brand/25 bg-brand/[0.07] px-4 py-3 text-[13px] text-brand-soft">

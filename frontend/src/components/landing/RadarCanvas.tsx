@@ -60,7 +60,7 @@ export default function RadarCanvas({ opacity = 0.5 }: { opacity?: number }) {
         for (let i = 1; i <= 5; i++) {
           ctx.beginPath();
           ctx.arc(ox, oy, (maxR / 5) * i, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(0,212,255,${i === 3 ? 0.09 : 0.04})`;
+          ctx.strokeStyle = `rgba(243,18,78,${i === 3 ? 0.09 : 0.04})`;
           ctx.lineWidth = i === 3 ? 1 : 0.5;
           ctx.stroke();
         }
@@ -72,8 +72,8 @@ export default function RadarCanvas({ opacity = 0.5 }: { opacity?: number }) {
           ox,
           oy
         );
-        g.addColorStop(0, 'rgba(0,212,255,0)');
-        g.addColorStop(0.6, 'rgba(0,212,255,.05)');
+        g.addColorStop(0, 'rgba(243,18,78,0)');
+        g.addColorStop(0.6, 'rgba(243,18,78,.05)');
         g.addColorStop(1, 'rgba(243,18,78,.10)');
         ctx.save();
         ctx.beginPath();
@@ -89,9 +89,9 @@ export default function RadarCanvas({ opacity = 0.5 }: { opacity?: number }) {
         ctx.beginPath();
         ctx.moveTo(ox, oy);
         ctx.lineTo(ox + Math.cos(angle) * maxR, oy + Math.sin(angle) * maxR);
-        ctx.strokeStyle = 'rgba(0,212,255,.38)';
+        ctx.strokeStyle = 'rgba(243,18,78,.38)';
         ctx.lineWidth = 1;
-        ctx.shadowColor = '#00D4FF';
+        ctx.shadowColor = '#f3124e';
         ctx.shadowBlur = 8;
         ctx.stroke();
         ctx.restore();
@@ -116,7 +116,7 @@ export default function RadarCanvas({ opacity = 0.5 }: { opacity?: number }) {
               ctx.beginPath();
               ctx.moveTo(d.x, d.y);
               ctx.lineTo(o.x, o.y);
-              ctx.strokeStyle = `rgba(0,212,255,${(0.1 * (1 - dist / 120)).toFixed(3)})`;
+              ctx.strokeStyle = `rgba(243,18,78,${(0.1 * (1 - dist / 120)).toFixed(3)})`;
               ctx.lineWidth = 0.6;
               ctx.stroke();
             }

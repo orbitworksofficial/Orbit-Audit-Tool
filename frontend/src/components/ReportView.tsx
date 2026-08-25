@@ -28,7 +28,7 @@ export default function ReportView({
     <div className="mx-auto w-full max-w-5xl space-y-5">
       {/* Header */}
       <header className="ow-card p-7 sm:p-9">
-        <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-cyan to-transparent" />
+        <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-brand-100 to-transparent" />
         <div className="flex flex-wrap items-center justify-between gap-7">
           <div>
             <span className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand">
@@ -261,7 +261,7 @@ export default function ReportView({
           {(m6.platforms_found ?? []).map((p) => (
             <span
               key={p}
-              className="rounded-full border border-emerald-500/25 bg-emerald-500/[0.06] px-3 py-1.5 text-[12px] text-emerald-400"
+              className="rounded-full border border-success/25 bg-success/[0.06] px-3 py-1.5 text-[12px] text-success"
             >
               &#10003; {p}
             </span>

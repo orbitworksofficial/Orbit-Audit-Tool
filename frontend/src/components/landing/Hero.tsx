@@ -33,153 +33,145 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
+  /*
+   * One clean viewport: fixed nav at the top, ticker sitting on the bottom
+   * edge, content optically centred between them.
+   *
+   * min-height is 100svh minus the ticker (~38px), so hero + ticker together
+   * fill exactly one screen. svh rather than vh so mobile browser chrome does
+   * not push the ticker out of view.
+   *
+   * Applied only at lg and up: below that the two columns stack and the
+   * content is roughly 925px tall, which would overflow a short laptop and
+   * push the ticker below the fold anyway. There the section simply sizes to
+   * its content.
+   */
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-24 pt-32 sm:px-6"
+      className="relative flex flex-col items-center justify-center overflow-hidden px-5 pb-14 pt-28 sm:px-6 lg:min-h-[calc(100svh-38px)]"
     >
       <RadarCanvas />
-
-      {/* Grid overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 z-[1]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(0,212,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,.028) 1px, transparent 1px)',
-          backgroundSize: '54px 54px',
-          maskImage:
-            'radial-gradient(ellipse 90% 70% at 50% 45%, #000 35%, transparent 100%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse 90% 70% at 50% 45%, #000 35%, transparent 100%)',
-        }}
-      />
+      <div className="ow-grid-overlay" />
 
       {/* Aurora */}
       <div
-        className="pointer-events-none absolute left-1/2 top-[42%] z-[1] h-[70vw] max-h-[900px] w-[70vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 animate-aurora blur-[30px]"
+        className="pointer-events-none absolute left-1/2 top-[38%] z-[1] h-[60vw] max-h-[720px] w-[60vw] max-w-[720px] -translate-x-1/2 -translate-y-1/2 animate-aurora blur-[30px]"
         style={{
           background:
-            'radial-gradient(circle at 38% 40%, rgba(243,18,78,.20), transparent 58%), radial-gradient(circle at 66% 62%, rgba(0,212,255,.16), transparent 60%)',
+            'radial-gradient(circle at 40% 40%, rgba(243,18,78,.18), transparent 60%)',
         }}
       />
 
-      <div className="relative z-[5] grid w-full max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div className="relative z-[5] grid w-full max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
         {/* Copy */}
         <div className="flex max-w-xl flex-col items-start">
           <Reveal>
-            <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-cyan/[0.05] px-4 py-1.5 text-[10.5px] font-semibold uppercase tracking-[0.15em] text-cyan">
-              <span className="h-1.5 w-1.5 animate-dot rounded-full bg-cyan" />
-              AEO + GEO agency &mdash; 2026
+            <span className="ow-eyebrow mb-5">
+              <span className="h-1.5 w-1.5 animate-dot rounded-full bg-success" />
+              FREE AI VISIBILITY SCAN
             </span>
           </Reveal>
 
-          <h1 className="font-display text-[clamp(29px,5.5vw,50px)] font-bold leading-[1.1] tracking-[-.035em]">
+          {/*
+            Two-tone display heading: first line white, second in the accent.
+            A span, never a gradient.
+          */}
+          <h1 className="ow-display-sm">
             <span className="block text-white">Be the answer,</span>
-            <span className="animate-shift bg-gradient-to-r from-brand via-cyan to-brand bg-[length:200%_auto] bg-clip-text text-transparent">
+            <span className="ow-accent-line">
               {typed}
+              <span className="ml-1 inline-block h-[0.7em] w-[3px] animate-pulse bg-brand align-baseline" />
             </span>
-            <span className="ml-0.5 inline-block h-[0.82em] w-[2.5px] animate-pulse bg-brand align-[-.08em] shadow-[0_0_14px_rgba(243,18,78,.8)]" />
           </h1>
 
-          <Reveal delay={520}>
-            <p className="mt-5 max-w-md text-[clamp(14.5px,1.6vw,16.5px)] leading-[1.75] text-muted">
-              Your clients now ask ChatGPT, Perplexity and Google AI who to
-              hire. We put your business{' '}
-              <em className="font-semibold not-italic text-white">
-                inside those answers
-              </em>{' '}
-              &mdash; cited by name, in 60 days.
+          <Reveal delay={200}>
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+              See whether ChatGPT, Perplexity and Google AI recommend your
+              business &mdash; or your competitors. Six checks, 60 seconds, no
+              account needed.
             </p>
           </Reveal>
 
-          <Reveal delay={640}>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/scan" className="ow-btn animate-glow">
-                <span className="absolute left-0 top-0 h-full w-[38%] animate-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-                <span className="relative">Scan my business free</span>
+          <Reveal delay={300}>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link href="/scan" className="ow-btn">
+                <span className="relative">RUN MY FREE SCAN</span>
               </Link>
-              <Link href="/#shift" className="ow-btn-ghost">
-                See what changed &rarr;
+              <Link href="#how" className="ow-btn-ghost">
+                HOW IT WORKS
               </Link>
             </div>
           </Reveal>
 
-          <Reveal delay={760}>
-            <div className="mt-9 flex w-full max-w-md flex-wrap gap-7 border-t border-white/[0.07] pt-5">
-              <Stat value="60%" label="searches end without a click" />
-              <Stat value="3×" label="avg. lift in inbound enquiries" />
-              <Stat value="60d" label="to measurable AI visibility" />
+          <Reveal delay={400}>
+            <div className="mt-8 flex w-full max-w-md flex-wrap gap-8 border-t border-border pt-5">
+              <Stat value="60" unit="s" label="to your full report" />
+              <Stat value="6" unit="" label="areas analysed" />
+              <Stat value="0" unit="$" label="cost, no card" />
             </div>
           </Reveal>
         </div>
 
         {/* Mock AI answer */}
-        <Reveal delay={380} className="relative w-full max-w-md justify-self-center">
+        <Reveal delay={250} className="relative w-full max-w-md justify-self-center">
           <div
-            className="pointer-events-none absolute -inset-3.5 rounded-[26px] blur-[26px]"
+            className="pointer-events-none absolute -inset-3 blur-[26px]"
             style={{
               background:
-                'linear-gradient(140deg, rgba(0,212,255,.18), rgba(243,18,78,.16))',
+                'linear-gradient(140deg, rgba(243,18,78,.16), transparent 70%)',
             }}
           />
-          <div className="relative overflow-hidden rounded-[20px] border border-white/10 bg-gradient-to-b from-[rgba(16,24,44,.95)] to-[rgba(9,13,26,.95)] shadow-[0_34px_90px_rgba(0,0,0,.6)] backdrop-blur-xl">
-            <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/70 to-transparent" />
+          <div className="ow-surface relative overflow-hidden shadow-[0_34px_90px_rgba(0,0,0,.6)]">
+            <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent" />
 
-            <div className="flex items-center gap-2.5 border-b border-white/[0.07] px-4.5 py-3.5">
+            <div className="flex items-center gap-2.5 border-b border-border px-4 py-3">
               <span className="flex gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[#FF5F57]" />
                 <span className="h-2 w-2 rounded-full bg-[#FEBC2E]" />
                 <span className="h-2 w-2 rounded-full bg-[#28C840]" />
               </span>
-              <span className="ml-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted">
-                AI answer &mdash; live
-              </span>
-              <span className="ml-auto flex items-center gap-1.5 text-[10.5px] text-cyan">
-                <span className="h-1.5 w-1.5 animate-dot rounded-full bg-cyan" />
+              <span className="ow-mono !text-[10px]">AI ANSWER &mdash; LIVE</span>
+              <span className="ml-auto flex items-center gap-1.5 text-[10.5px] text-success">
+                <span className="h-1.5 w-1.5 animate-dot rounded-full bg-success" />
                 cited
               </span>
             </div>
 
-            <div className="p-4.5">
-              <div className="min-h-[38px] rounded-[10px] border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 font-mono text-[11.5px] text-white/60">
+            <div className="p-4">
+              <div className="min-h-[36px] border border-border bg-white/[0.03] px-3.5 py-2.5 font-mono text-[11.5px] text-white/60">
                 {query}
-                <span className="ml-0.5 inline-block h-[11px] w-1.5 animate-pulse bg-cyan align-middle" />
+                <span className="ml-0.5 inline-block h-[11px] w-1.5 animate-pulse bg-brand align-middle" />
               </div>
 
               <p className="mt-4 text-[12.5px] leading-[1.9] text-white/75">
                 Three providers stand out in your area.{' '}
-                <span className="rounded-[5px] bg-gradient-to-r from-cyan/20 to-cyan/[0.06] px-1.5 py-0.5 font-semibold text-white shadow-[0_0_0_1px_rgba(0,212,255,.3)]">
+                <span className="bg-brand/20 px-1.5 py-0.5 font-semibold text-white shadow-[0_0_0_1px_rgba(243,18,78,.4)]">
                   Your Business
                 </span>{' '}
-                is the most consistently recommended, with verified reviews,
-                strong entity signals and citations across multiple sources.
+                is the most consistently recommended, with verified reviews and
+                strong entity signals.
               </p>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                <Chip active>yourbusiness.com</Chip>
-                <Chip>reviews</Chip>
-                <Chip>local directory</Chip>
-              </div>
             </div>
 
-            <div className="flex items-center gap-3.5 border-t border-white/[0.07] bg-white/[0.02] px-4.5 py-4">
+            <div className="flex items-center gap-3.5 border-t border-border bg-white/[0.02] px-4 py-4">
               <span
                 ref={scoreRef}
-                className="relative flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full"
+                className="relative flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full"
                 style={{
-                  background: `conic-gradient(#00D4FF ${(score * 3.6).toFixed(1)}deg, rgba(255,255,255,.07) 0deg)`,
+                  background: `conic-gradient(#61e2a2 ${(score * 3.6).toFixed(1)}deg, rgba(255,255,255,.07) 0deg)`,
                 }}
               >
-                <span className="absolute inset-[5px] flex items-center justify-center rounded-full bg-[#0A0F1E] font-display text-sm font-bold text-white">
+                <span className="absolute inset-[5px] flex items-center justify-center rounded-full bg-card font-display text-sm font-extrabold text-white">
                   {Math.round(score)}
                 </span>
               </span>
               <span className="flex flex-col gap-0.5">
-                <span className="font-display text-[12.5px] font-semibold text-white">
+                <span className="font-display text-[12.5px] font-bold text-white">
                   AI visibility score
                 </span>
                 <span className="text-[11px] text-muted">
-                  after 60 days with Orbit Works &mdash; up from 24
+                  what yours could look like
                 </span>
               </span>
             </div>
@@ -190,34 +182,22 @@ export default function Hero() {
   );
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <span className="flex flex-col gap-1">
-      <span className="font-display text-[19px] font-bold text-white">
-        {value.slice(0, -1)}
-        <span className="text-cyan">{value.slice(-1)}</span>
-      </span>
-      <span className="text-[11px] leading-snug text-muted">{label}</span>
-    </span>
-  );
-}
-
-function Chip({
-  children,
-  active,
+function Stat({
+  value,
+  unit,
+  label,
 }: {
-  children: React.ReactNode;
-  active?: boolean;
+  value: string;
+  unit: string;
+  label: string;
 }) {
   return (
-    <span
-      className={`rounded-full border px-2.5 py-1 text-[10.5px] ${
-        active
-          ? 'border-cyan/25 bg-cyan/[0.06] text-cyan'
-          : 'border-white/10 bg-white/[0.03] text-white/50'
-      }`}
-    >
-      {children}
+    <span className="flex flex-col gap-1">
+      <span className="font-display text-[26px] font-extrabold leading-none tracking-[-.04em] text-white">
+        {value}
+        <span className="text-brand">{unit}</span>
+      </span>
+      <span className="text-[11px] leading-snug text-muted">{label}</span>
     </span>
   );
 }

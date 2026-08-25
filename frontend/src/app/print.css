@@ -75,8 +75,8 @@
   .text-brand-soft {
     color: #c50f40 !important;
   }
-  .text-cyan {
-    color: #0284a8 !important;
+  .text-brand-100 {
+    color: #c50f40 !important;
   }
 
   /* SVG gauges keep their stroke colours; only the track needs lightening. */

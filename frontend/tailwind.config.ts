@@ -7,29 +7,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: '#070B14',        // page background
-        panel: '#0A0F1E',      // alternating section background
-        card: '#101828',       // raised surface
+        // Theme tokens. Mirrors the CSS variables in src/app/theme.css.
+        ink: '#050912',          // near-black canvas
+        background: '#050912',
+        panel: '#050912',
+        card: '#111a2b',         // raised surfaces
+        border: '#263653',       // hairlines
         brand: {
-          DEFAULT: '#F3124E',  // Orbit crimson
-          soft: '#FF5C82',
-          deep: '#8C0B32',
+          DEFAULT: '#f3124e',    // the ONLY accent
+          soft: '#ff5c82',
+          100: '#ff5c82',
+          200: '#ff6e90',
+          300: '#ff7d9c',
+          400: '#ff8fa8',
+          deep: '#4a1028',       // accent-soft, for fills
         },
-        cyan: {
-          DEFAULT: '#00D4FF',  // Orbit cyan
-          soft: '#7FE9FF',
-        },
-        muted: '#8B91A3',
-        faint: '#454C58',
+        muted: '#9aa8bf',
+        faint: '#55627a',
+        success: '#61e2a2',      // the single success colour
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Space Grotesk', 'sans-serif'],
-        body: ['var(--font-body)', 'Manrope', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Inter', 'system-ui', 'sans-serif'],
+        body: ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       keyframes: {
         dot: {
-          '0%,100%': { opacity: '1', boxShadow: '0 0 0 0 rgba(0,212,255,.5)' },
-          '50%': { opacity: '.35', boxShadow: '0 0 0 6px rgba(0,212,255,0)' },
+          '0%,100%': { opacity: '1', boxShadow: '0 0 0 0 rgba(243,18,78,.5)' },
+          '50%': { opacity: '.35', boxShadow: '0 0 0 6px rgba(243,18,78,0)' },
         },
         glow: {
           '0%,100%': { boxShadow: '0 6px 30px rgba(243,18,78,.28)' },

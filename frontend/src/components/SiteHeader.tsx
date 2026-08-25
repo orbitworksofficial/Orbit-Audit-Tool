@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import Logo from './Logo';
 import { useEffect, useState } from 'react';
 
+// Kept short: this is the tool, not the marketing site. The product pitch
+// lives on the separate Orbit Works landing page.
 const NAV = [
-  { href: '/#shift', label: 'The shift' },
-  { href: '/#method', label: 'Method' },
-  { href: '/#proof', label: 'Results' },
+  { href: '/#how', label: 'What we check' },
   { href: '/pricing', label: 'Pricing' },
 ];
 
@@ -31,14 +32,7 @@ export default function SiteHeader({ signedIn = false }: { signedIn?: boolean })
       }}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6 lg:px-10">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-gradient-to-br from-brand to-brand-deep font-display text-[12px] font-bold text-white shadow-[0_6px_22px_rgba(243,18,78,.35)]">
-            OW
-          </span>
-          <span className="font-display text-[14.5px] font-semibold tracking-tight text-white">
-            Orbit<span className="text-brand">Works</span>
-          </span>
-        </Link>
+        <Logo height={24} />
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-7 md:flex">

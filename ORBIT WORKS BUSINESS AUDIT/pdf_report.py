@@ -14,11 +14,11 @@ try:
 except ImportError:
     PLAYWRIGHT_AVAILABLE = False
 
-# Playwright spawns a node subprocess to drive Chromium. On Windows only the
-# Proactor loop supports subprocesses; under a Selector loop (which some IDE
-# runners install) the spawn raises NotImplementedError. No-op on Linux.
-if PLAYWRIGHT_AVAILABLE and sys.platform == "win32":
-    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+# Playwright spawns a node subprocess to drive Chromium, and on Windows only
+# the Proactor loop can spawn subprocesses. Uvicorn's --reload worker runs on a
+# Selector loop and ignores any policy we set at import time, so rather than
+# fight for the server's loop we render on our own thread with our own loop.
+# See _render_pdf_sync below. No special handling needed on Linux or macOS.
 
 async def generate_pdf(result_data: dict, output_path: str, ai_analysis: dict = None):
     if not PLAYWRIGHT_AVAILABLE:
@@ -51,9 +51,36 @@ async def generate_pdf(result_data: dict, output_path: str, ai_analysis: dict = 
         ai_analysis=ai_analysis
     )
     
+    # Render off the server's event loop, on a thread we fully control.
+    await asyncio.to_thread(_render_pdf_sync, html_content, str(output_path))
+
+
+def _render_pdf_sync(html_content: str, output_path: str) -> None:
+    """
+    Render HTML to PDF on a private event loop.
+
+    Runs in a worker thread via asyncio.to_thread, so it can create whichever
+    loop Playwright needs regardless of what the server is using. On Windows
+    that means an explicit ProactorEventLoop, which is the only kind that can
+    spawn the node subprocess driving Chromium.
+    """
+    if sys.platform == "win32":
+        loop = asyncio.ProactorEventLoop()
+    else:
+        loop = asyncio.new_event_loop()
+
+    try:
+        loop.run_until_complete(_render(html_content, output_path))
+    finally:
+        loop.close()
+
+
+async def _render(html_content: str, output_path: str) -> None:
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
-        await page.set_content(html_content, wait_until="networkidle")
-        await page.pdf(path=str(output_path), format="A4", print_background=True)
-        await browser.close()
+        try:
+            page = await browser.new_page()
+            await page.set_content(html_content, wait_until="networkidle")
+            await page.pdf(path=output_path, format="A4", print_background=True)
+        finally:
+            await browser.close()

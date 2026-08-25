@@ -64,7 +64,7 @@ export default async function PrivacyPage() {
 
       <Section heading="Contact">
         <p>
-          Questions about this policy: <span className="text-cyan">
+          Questions about this policy: <span className="text-brand-100">
             hello@orb-itworks.com
           </span>
         </p>

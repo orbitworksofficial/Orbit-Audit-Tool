@@ -11,11 +11,17 @@ export function scoreBand(score: number): ScoreBand {
   return 'weak';
 }
 
+/**
+ * Score colours are semantic, not decorative: the brief specifies green above
+ * 70, amber 40-70, red below 40, and visitors read health by colour. They are
+ * the one place the single-accent rule is relaxed, retuned to sit correctly on
+ * the near-black canvas.
+ */
 export function scoreColor(score: number): string {
   const band = scoreBand(score);
-  if (band === 'strong') return '#10B981';
-  if (band === 'moderate') return '#F5A524';
-  return '#F3124E';
+  if (band === 'strong') return '#61e2a2'; // the theme success colour
+  if (band === 'moderate') return '#f5a524';
+  return '#f3124e'; // the accent
 }
 
 export function scoreLabel(score: number): string {

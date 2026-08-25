@@ -94,7 +94,7 @@ export default function AeoSection({ data }: { data: Module1AeoGeo }) {
 
   return (
     <section className="ow-card p-7 sm:p-9">
-      <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand via-cyan to-transparent" />
+      <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-brand via-brand-100 to-transparent" />
 
       <div className="flex flex-wrap items-start justify-between gap-6">
         <div className="max-w-lg">
@@ -145,14 +145,14 @@ export default function AeoSection({ data }: { data: Module1AeoGeo }) {
               key={p.name}
               className={`rounded-xl border p-4 ${
                 appeared
-                  ? 'border-emerald-500/25 bg-emerald-500/[0.05]'
+                  ? 'border-success/25 bg-success/[0.05]'
                   : 'border-brand/25 bg-brand/[0.05]'
               }`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-[13px] font-semibold">{p.name}</span>
                 <span
-                  className={`text-lg ${appeared ? 'text-emerald-400' : 'text-brand'}`}
+                  className={`text-lg ${appeared ? 'text-success' : 'text-brand'}`}
                 >
                   {appeared ? '✓' : '✕'}
                 </span>
@@ -179,12 +179,12 @@ export default function AeoSection({ data }: { data: Module1AeoGeo }) {
                 key={key}
                 className={`flex items-start gap-2.5 rounded-lg border px-3.5 py-2.5 ${
                   ok
-                    ? 'border-emerald-500/20 bg-emerald-500/[0.05]'
+                    ? 'border-success/20 bg-success/[0.05]'
                     : 'border-brand/[0.18] bg-brand/[0.05]'
                 }`}
               >
                 <span
-                  className={`mt-px shrink-0 text-[13px] ${ok ? 'text-emerald-400' : 'text-brand'}`}
+                  className={`mt-px shrink-0 text-[13px] ${ok ? 'text-success' : 'text-brand'}`}
                 >
                   {ok ? '✓' : '✗'}
                 </span>

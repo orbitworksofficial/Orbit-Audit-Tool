@@ -5,40 +5,54 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Scrollbar lives on html only. Setting overflow on body as well would
+       produce a second scrollbar beside it. */
   }
   body {
-    @apply bg-ink text-white font-body antialiased;
-    overflow-x: hidden;
+    @apply bg-ink text-white antialiased;
   }
   ::selection {
-    background: rgba(243, 18, 78, 0.35);
+    background: #f3124e;
+    color: #f7f9ff;
   }
 }
 
 @layer components {
-  /* Shared surface used by cards across the scan and report views. */
+  /*
+   * Raised surface. Near-square corners (0.35rem) rather than the rounded
+   * cards of a typical SaaS layout.
+   */
   .ow-card {
-    @apply relative overflow-hidden rounded-2xl border border-white/[0.08]
-           bg-gradient-to-b from-card/90 to-ink/85 backdrop-blur;
+    @apply relative overflow-hidden rounded-[0.35rem] border border-border
+           bg-card;
   }
+
   .ow-input {
-    @apply w-full rounded-xl border border-white/[0.09] bg-white/[0.05] px-4 py-3.5
+    @apply w-full rounded-[0.35rem] border border-border bg-white/[0.03] px-4 py-3.5
            text-sm text-white outline-none transition
-           placeholder:text-muted focus:border-cyan/50 focus:bg-cyan/[0.06];
+           placeholder:text-muted focus:border-brand focus:bg-brand/[0.06];
   }
+
+  /* Buttons are square, weighty and lift on hover — not pills. */
   .ow-btn {
-    @apply relative overflow-hidden rounded-full bg-brand px-7 py-3.5 font-display
-           text-sm font-semibold text-white transition
-           hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50
+    @apply relative inline-flex items-center justify-center overflow-hidden
+           rounded-none border border-brand bg-brand px-5 py-[15px]
+           text-xs font-extrabold text-white transition-transform duration-[250ms]
+           hover:-translate-y-[3px] disabled:cursor-not-allowed disabled:opacity-50
            disabled:hover:translate-y-0;
   }
+
   .ow-btn-ghost {
-    @apply rounded-full border border-white/[0.12] bg-white/[0.02] px-6 py-3.5
-           font-display text-sm font-medium text-muted transition
-           hover:border-cyan/45 hover:bg-cyan/[0.06] hover:text-white;
+    @apply inline-flex items-center justify-center rounded-none border
+           border-white/[0.27] bg-transparent px-5 py-[15px] text-xs
+           font-extrabold text-white transition-transform duration-[250ms]
+           hover:-translate-y-[3px] hover:border-white/[0.55];
   }
+
+  /* Mono technical label. Every section opens with one. */
   .ow-label {
-    @apply mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-muted;
+    @apply mb-2 block font-mono text-[10px] font-medium uppercase
+           tracking-[0.16em] text-brand;
   }
 }
 
@@ -46,7 +60,9 @@
   *,
   *::before,
   *::after {
-    animation: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
