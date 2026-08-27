@@ -1,102 +1,171 @@
 /*
- * Print styles for the report page.
+ * Print styles for the audit report — three A4 portrait pages.
  *
- * The visitor's own browser prints the report to PDF, so the server never
- * needs a headless Chromium. Save-as-PDF is built into every browser.
+ * Two earlier attempts failed and are worth recording:
  *
- * The screen design is dark; paper is white, so the palette is inverted here
- * rather than shipping a second template.
+ *   1. `break-inside: avoid` on the page wrapper. When content is even
+ *      slightly taller than the sheet the browser cannot honour it, so it
+ *      pushes the whole block to a fresh page and leaves the previous one
+ *      blank. Two pages became seven, most of them mostly empty.
+ *
+ *   2. Landscape with `transform: scale(0.764)`. It fitted, but that scale
+ *      renders 11px body text at 8.4px — legible only when zoomed in.
+ *
+ * What works: portrait sheets, and a content column narrow enough (718px)
+ * to print at scale 1.0, so text prints at its true size.
  */
 
 @media print {
-  /* Chrome/Edge honour this for backgrounds and gradients. */
-  * {
+  /* Chrome and Edge only paint backgrounds when this is set. Without it the
+     dark panels vanish and the report prints as text on white. */
+  *,
+  *::before,
+  *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
   @page {
-    size: A4;
-    margin: 14mm 12mm;
+    size: A4 portrait;
+    /* No margin: each page paints its own dark background to the sheet edge. */
+    margin: 0;
   }
 
   html,
   body {
-    background: #fff !important;
-    color: #111 !important;
+    background: #050912 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* Chrome anything that is navigation or interaction, not content. */
+  /* Chrome anything that is navigation or interaction, not the report. */
   header,
   footer,
   nav,
-  .no-print {
+  .no-print,
+  .ow-progress {
     display: none !important;
   }
 
-  /* Flatten the dark card treatment onto paper. */
-  .ow-card,
-  section,
-  .ow-card section {
-    background: #fff !important;
-    border-color: #d8dce5 !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    break-inside: avoid;
+  main,
+  main > div,
+  main > div > div {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
   }
 
-  /* Decorative glows and auroras waste ink and mean nothing on paper. */
+  /*
+   * One sheet per page. Height is fixed and overflow hidden, so a page can
+   * never bleed onto the next.
+   */
+  .ow-report-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    overflow: hidden !important;
+    background: #050912 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 9mm 10mm !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    /* Deliberately NOT break-inside: avoid — see the note at the top. */
+  }
+
+  .ow-report-page + .ow-report-page {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  /* No trailing blank sheet after the last page. */
+  .ow-report-page:last-child {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /*
+   * The content column. 718px is the usable width of A4 portrait at 96dpi,
+   * so this prints 1:1 — no transform, no shrinking.
+   */
+  .ow-report-scale {
+    width: 718px !important;
+    transform: none !important;
+  }
+
+  /*
+   * Panels that sit side by side on screen must stack for print: the sheet is
+   * only 718px wide, and two columns there would be unreadable.
+   */
+  .ow-screen-cols {
+    display: block !important;
+  }
+
+  .ow-screen-cols > * + * {
+    margin-top: 1rem;
+  }
+
+  /* Panels must not be split by the browser's own pagination. */
+  .ow-report-page section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Decorative blurs and animations waste ink and mean nothing on paper. */
   [class*='blur-'],
   [class*='animate-'],
   canvas {
     display: none !important;
   }
 
-  /* Body copy: the muted greys are unreadable when printed. */
-  p,
-  li,
-  dd,
-  dt,
-  span,
-  td,
-  th {
-    color: #333 !important;
-  }
-
-  h1,
-  h2,
-  h3 {
-    color: #0b1220 !important;
-    break-after: avoid;
-  }
-
-  /* Keep the brand accents — they carry meaning in the scores. */
-  .text-brand,
-  .text-brand-soft {
-    color: #c50f40 !important;
-  }
-  .text-brand-100 {
-    color: #c50f40 !important;
-  }
-
-  /* SVG gauges keep their stroke colours; only the track needs lightening. */
-  svg circle[stroke='rgba(255,255,255,.07)'] {
-    stroke: #e6e9f0 !important;
-  }
-
-  table {
-    break-inside: auto;
-  }
-  tr {
-    break-inside: avoid;
-  }
-
   a {
     text-decoration: none !important;
+    color: inherit !important;
   }
 
-  /* Start each major section on a fresh page where it would otherwise split. */
-  .print-page-break {
-    break-before: page;
+  section,
+  div,
+  ul,
+  li {
+    overflow: visible !important;
+  }
+}
+
+/*
+ * On screen the pages read as paper: a fixed-width column, centred. What the
+ * visitor sees is what they get in the PDF.
+ */
+/*
+ * On screen the report is not constrained to paper: a browser window is wide,
+ * so the layout uses that width and the panels sit side by side. The print
+ * rules above narrow the same markup to a 718px column for A4, so the PDF
+ * stays portrait and prints 1:1.
+ */
+@media screen {
+  .ow-report-page {
+    width: 100%;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* The scale wrapper is a fixed 718px column only when printing. */
+  .ow-report-scale {
+    width: 100%;
+  }
+
+  /* One column by default; widened below. */
+  .ow-screen-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Two columns once the window is wide enough. Flattened rather than nested
+   inside the screen block, so no build step can mishandle it. */
+@media screen and (min-width: 900px) {
+  .ow-screen-cols {
+    grid-template-columns: 1fr 1fr;
   }
 }

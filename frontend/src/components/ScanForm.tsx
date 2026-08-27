@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import ScanProgress from './ScanProgress';
 import type { AuditResponse } from '@/types/audit';
+import { collectSignals } from '@/lib/fingerprint';
 
 type Phase = 'form' | 'running' | 'error';
 
@@ -11,11 +13,13 @@ export default function ScanForm() {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>('form');
   const [error, setError] = useState<string | null>(null);
+  const [needsSignup, setNeedsSignup] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setPhase('running');
     setError(null);
+    setNeedsSignup(false);
 
     const payload = Object.fromEntries(
       new FormData(e.currentTarget)
@@ -24,15 +28,23 @@ export default function ScanForm() {
     const res = await fetch('/api/scan', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      // signals let the server recognise this device, so the one free guest
+      // scan cannot be reclaimed by clearing cookies.
+      body: JSON.stringify({ ...payload, signals: collectSignals() }),
     });
 
     const data = (await res.json().catch(() => ({}))) as Partial<
-      AuditResponse & { error: string; code: string; reportId: string }
+      AuditResponse & {
+        error: string;
+        code: string;
+        reportId: string;
+        needsSignup: boolean;
+      }
     >;
 
     if (!res.ok) {
       setError(data.error ?? 'The scan failed. Please try again.');
+      setNeedsSignup(Boolean(data.needsSignup));
       setPhase('error');
       return;
     }
@@ -55,9 +67,17 @@ export default function ScanForm() {
       <span className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-brand-100 to-brand opacity-70" />
 
       {error && (
-        <p className="mb-5 rounded-lg border border-brand/25 bg-brand/[0.07] px-4 py-3 text-[13px] text-brand-soft">
-          {error}
-        </p>
+        <div className="mb-5 rounded-[0.35rem] border border-brand/25 bg-brand/[0.07] px-4 py-3">
+          <p className="text-[13px] text-brand-100">{error}</p>
+          {needsSignup && (
+            <Link
+              href="/signup"
+              className="ow-btn mt-3 inline-block !py-2.5 !text-[11px]"
+            >
+              CREATE A FREE ACCOUNT
+            </Link>
+          )}
+        </div>
       )}
 
       <form onSubmit={onSubmit} className="space-y-5">

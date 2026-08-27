@@ -69,7 +69,7 @@ Type=simple
 WorkingDirectory=$PY_DIR
 Environment="ENVIRONMENT=production"
 EnvironmentFile=$PY_DIR/.env
-ExecStart=$PY_DIR/venv/bin/uvicorn api:app --host 127.0.0.1 --port 8000
+ExecStart="$PY_DIR/venv/bin/uvicorn" api:app --host 127.0.0.1 --port 8000
 Restart=always
 RestartSec=5
 # A scan runs 100-155s; do not let systemd consider that a hang.
@@ -145,7 +145,9 @@ ufw allow OpenSSH >/dev/null
 ufw allow 'Nginx Full' >/dev/null
 ufw --force enable >/dev/null
 
-IP=$(curl -fsS --max-time 10 ifconfig.me || echo "YOUR-SERVER-IP")
+# -4 forces IPv4: the bare call can return an IPv6 address, which is
+# awkward to type into a browser and is not what the domain will point at.
+IP=$(curl -4 -fsS --max-time 10 ifconfig.me || echo "YOUR-SERVER-IP")
 echo
 echo "============================================"
 echo " Done. Your app is live at:  http://$IP"

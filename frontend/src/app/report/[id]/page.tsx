@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { pdfDownloadUrl } from '@/lib/python-api';
-import ReportView from '@/components/ReportView';
+import ReportDocument from '@/components/report/ReportDocument';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import type { AuditResult, AiAnalysis } from '@/types/audit';
@@ -48,7 +47,7 @@ export default async function ReportPage({
           }}
         />
         <div className="relative z-10">
-          <ReportView result={result} ai={ai} pdfUrl={pdfDownloadUrl(id)} />
+          <ReportDocument result={result} ai={ai} />
         </div>
       </main>
       <SiteFooter />

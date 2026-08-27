@@ -20,7 +20,7 @@ async def analyze_website_health(url: str) -> dict:
     api_url_desktop = f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url={encoded_url}&key={api_key}&strategy=desktop&category=performance"
     
     try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=120.0) as client:
             mobile_task = asyncio.create_task(client.get(api_url_mobile))
             desktop_task = asyncio.create_task(client.get(api_url_desktop))
             

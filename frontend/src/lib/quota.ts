@@ -42,7 +42,7 @@ export async function readQuota(userId: string): Promise<QuotaState> {
 
   const { data, error } = await admin
     .from('profiles')
-    .select('scans_used, scan_limit')
+    .select('scans_used, scan_limit, bonus_scans, is_active')
     .eq('id', userId)
     .single();
 
@@ -50,11 +50,14 @@ export async function readQuota(userId: string): Promise<QuotaState> {
     return { allowed: false, scansUsed: 0, scanLimit: 0, remaining: 0 };
   }
 
-  const remaining = Math.max(data.scan_limit - data.scans_used, 0);
+  // Gifted scans count toward the total an admin has granted.
+  const total = data.scan_limit + (data.bonus_scans ?? 0);
+  const remaining = Math.max(total - data.scans_used, 0);
+
   return {
-    allowed: remaining > 0,
+    allowed: remaining > 0 && data.is_active !== false,
     scansUsed: data.scans_used,
-    scanLimit: data.scan_limit,
+    scanLimit: total,
     remaining,
   };
 }

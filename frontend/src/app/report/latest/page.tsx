@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import ReportView from '@/components/ReportView';
+import ReportDocument from '@/components/report/ReportDocument';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import type { AuditResponse } from '@/types/audit';
@@ -87,7 +87,7 @@ export default function LatestReportPage() {
       />
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {!signedIn && (
-          <div className="ow-card mb-5 flex flex-wrap items-center justify-between gap-4 p-5">
+          <div className="ow-card no-print mb-5 flex flex-wrap items-center justify-between gap-4 p-5">
             <div>
               <p className="font-display text-[14px] font-semibold">
                 This report lives in your browser only
@@ -102,7 +102,7 @@ export default function LatestReportPage() {
             </Link>
           </div>
         )}
-        <ReportView result={payload.result} ai={payload.ai_analysis} />
+        <ReportDocument result={payload.result} ai={payload.ai_analysis} />
       </div>
       </main>
       <SiteFooter />
