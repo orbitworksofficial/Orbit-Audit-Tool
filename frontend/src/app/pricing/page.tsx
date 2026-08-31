@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/landing/Reveal';
+import { CALENDLY_URL } from '@/lib/links';
 
 export const metadata = {
   title: 'Pricing — Orbit Works',
@@ -24,7 +25,7 @@ const TIERS = [
       'Competitor comparison',
       'PDF export',
     ],
-    cta: { href: '/scan', label: 'Run a free scan' },
+    cta: { href: '/scan', label: 'RUN A FREE SCAN', external: false },
     highlight: false,
   },
   {
@@ -40,7 +41,7 @@ const TIERS = [
       'Monthly AI visibility tracking',
       'Direct line to your strategist',
     ],
-    cta: { href: '/contact', label: 'Book a strategy call' },
+    cta: { href: CALENDLY_URL, label: 'BOOK A STRATEGY CALL', external: true },
     highlight: true,
   },
 ];
@@ -124,16 +125,31 @@ export default async function PricingPage() {
                     ))}
                   </ul>
 
-                  <Link
-                    href={tier.cta.href}
-                    className={
-                      tier.highlight
-                        ? 'ow-btn text-center'
-                        : 'ow-btn-ghost text-center'
-                    }
-                  >
-                    <span className="relative">{tier.cta.label}</span>
-                  </Link>
+                  {tier.cta.external ? (
+                    <a
+                      href={tier.cta.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={
+                        tier.highlight
+                          ? 'ow-btn text-center'
+                          : 'ow-btn-ghost text-center'
+                      }
+                    >
+                      <span className="relative">{tier.cta.label}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      href={tier.cta.href}
+                      className={
+                        tier.highlight
+                          ? 'ow-btn text-center'
+                          : 'ow-btn-ghost text-center'
+                      }
+                    >
+                      <span className="relative">{tier.cta.label}</span>
+                    </Link>
+                  )}
                 </div>
               </Reveal>
             ))}

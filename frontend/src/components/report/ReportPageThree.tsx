@@ -1,6 +1,12 @@
 import { Panel, PanelHead, MetricRow, MicroHead, HexIcon } from './Primitives';
 import { PageFoot } from './ReportPageOne';
 import type { AuditResult } from '@/types/audit';
+import {
+  CALENDLY_URL,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_PHONE_HREF,
+} from '@/lib/links';
 
 /** Drops the "no major issues" placeholder the Python modules emit. */
 function realIssues(list: string[] | undefined): string[] {
@@ -189,16 +195,45 @@ export default function ReportPageThree({ result }: { result: AuditResult }) {
             </div>
           </div>
 
-          <div className="shrink-0 text-right">
-            <div className="text-[12px] font-semibold text-white">
-              +1 (604) 256-2560
+          <div className="flex shrink-0 items-center gap-4">
+            <div className="text-right">
+              <a
+                href={CONTACT_PHONE_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-[12px] font-semibold text-white"
+              >
+                WhatsApp {CONTACT_PHONE}
+              </a>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="block text-[11px] text-muted"
+              >
+                {CONTACT_EMAIL}
+              </a>
             </div>
-            <div className="text-[11px] text-muted">hello@orb-itworks.com</div>
-            <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.12em] text-brand-100">
-              orb-itworks.com
-            </div>
+
+            {/*
+              A real link, not text. On paper the URL is printed beneath it so
+              the CTA still works when the report is read as a PDF.
+            */}
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 rounded-[4px] border border-brand bg-brand px-4 py-2.5 text-center font-mono text-[9.5px] font-bold uppercase leading-tight tracking-[0.1em] text-white"
+            >
+              Book a free
+              <br />
+              30-minute session
+            </a>
           </div>
         </div>
+
+        {/* Only printed: a PDF reader cannot click, so show the URL. */}
+        <p className="mt-2 hidden text-center font-mono text-[9px] uppercase tracking-[0.12em] text-brand-100 print:block">
+          Book at {CALENDLY_URL.replace('https://', '')}
+        </p>
 
         <PageFoot n={3} />
       </div>

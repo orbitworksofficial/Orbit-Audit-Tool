@@ -3,6 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/landing/Reveal';
+import {
+  CALENDLY_URL,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_PHONE_HREF,
+} from '@/lib/links';
 
 export const metadata = {
   title: 'Contact — Orbit Works',
@@ -68,33 +74,40 @@ export default async function ContactPage() {
 
               <div className="rounded-[16px] border border-white/[0.08] bg-white/[0.03] p-6">
                 <h2 className="font-display text-[15px] font-semibold">
-                  Prefer email?
+                  Prefer to message?
                 </h2>
                 <p className="mt-2.5 text-[13px] leading-relaxed text-muted">
                   Send us your website and what you are trying to fix. We
                   usually reply within one business day.
                 </p>
+                {/* WhatsApp first: it gets the faster reply. */}
                 <a
-                  href="mailto:hello@orb-itworks.com"
-                  className="mt-4 inline-block text-[13px] text-brand-100 transition hover:text-brand-200"
+                  href={CONTACT_PHONE_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 block text-[13px] text-brand-100 transition hover:text-brand-200"
                 >
-                  hello@orb-itworks.com &rarr;
+                  WhatsApp {CONTACT_PHONE} &rarr;
+                </a>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="mt-2 block text-[13px] text-brand-100 transition hover:text-brand-200"
+                >
+                  {CONTACT_EMAIL} &rarr;
                 </a>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={300}>
-            {/*
-              Booking link is a placeholder until the real scheduler URL is
-              provided. Swap the href for the Calendly/Cal.com link.
-            */}
             <a
-              href="mailto:hello@orb-itworks.com?subject=Strategy%20call"
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="ow-btn mt-10 inline-block animate-glow !px-9 !py-[17px]"
             >
               <span className="absolute left-0 top-0 h-full w-[38%] animate-sweep bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-              <span className="relative">Request a strategy call</span>
+              <span className="relative">BOOK A STRATEGY CALL</span>
             </a>
           </Reveal>
         </div>

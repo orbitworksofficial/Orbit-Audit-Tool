@@ -6,6 +6,8 @@ import { scanSchema } from '@/lib/validation';
 import { clientIp } from '@/lib/rate-limit';
 import { computeFingerprint, type ClientSignals } from '@/lib/fingerprint';
 import { captureLead, completeLead } from '@/lib/leads';
+import { sendReportEmail } from '@/lib/email/send';
+import { SITE_URL } from '@/lib/links';
 
 /** A full audit runs 100-155s of live API calls in Python. */
 export const maxDuration = 300;
@@ -139,10 +141,32 @@ export async function POST(request: Request) {
 
     await completeLead(leadId, { status: 'success', reportId });
 
+    // Deliver the report by email. Awaited rather than fired and forgotten:
+    // serverless and systemd both kill background work once the response is
+    // sent, so a detached promise would silently never run.
+    const emailResult = await sendReportEmail(parsed.data.email, {
+      fullName: parsed.data.full_name,
+      businessName: audit.result.business_name,
+      result: audit.result,
+      ai: audit.ai_analysis,
+      reportUrl: reportId
+        ? `${SITE_URL}/report/${reportId}`
+        : `${SITE_URL}/scan`,
+    });
+
+    if (!emailResult.sent) {
+      // Not fatal: the visitor already has the report on screen.
+      console.error(
+        'Report email not delivered:',
+        emailResult.error ?? emailResult.skipped
+      );
+    }
+
     return NextResponse.json({
       ...audit,
       reportId,
       signedIn: Boolean(userId),
+      emailSent: emailResult.sent,
       scansRemaining:
         quota.limit !== undefined && quota.used !== undefined
           ? Math.max(0, quota.limit - quota.used)
