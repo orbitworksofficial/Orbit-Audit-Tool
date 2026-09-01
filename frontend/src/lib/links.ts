@@ -8,15 +8,16 @@
  */
 
 /**
- * Calendly booking page.
+ * Calendly booking page — the live 30-minute strategy session.
  *
- * Override per environment with NEXT_PUBLIC_CALENDLY_URL. The fallback is a
- * placeholder: confirm the real slug in your Calendly dashboard, since this
- * one 404s if the account uses a different handle.
+ * Override per environment with NEXT_PUBLIC_CALENDLY_URL. That variable is
+ * NEXT_PUBLIC_, so it is baked in at build time: changing it needs a rebuild,
+ * not just a restart. The fallback below is the real link, so the buttons work
+ * even where the variable was never set.
  */
 export const CALENDLY_URL =
   process.env.NEXT_PUBLIC_CALENDLY_URL ??
-  'https://calendly.com/orbitworks/30min';
+  'https://calendly.com/orbitworksofficial01/30min';
 
 export const CONTACT_EMAIL = 'hello@orb-itworks.com';
 

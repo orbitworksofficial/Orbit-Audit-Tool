@@ -51,17 +51,18 @@ systemctl restart orbit-web
 
 ## Step 4 — Set the Calendly link
 
-The booking buttons currently point at a **placeholder**:
+Every booking button points here:
 
 ```
-https://calendly.com/orbitworks/30min
+https://calendly.com/orbitworksofficial01/30min
 ```
 
-Open your Calendly dashboard, copy the real link for your 30-minute event, and
-set it in **both** `.env.local` files (local and server):
+This is now the built-in default, so the buttons work even if the variable is
+never set. To point them somewhere else, set it in **both** `.env.local` files
+(local and server):
 
 ```
-NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/your-real-slug/30min
+NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/orbitworksofficial01/30min
 ```
 
 This one is `NEXT_PUBLIC_`, so it is baked in at build time — the server needs
