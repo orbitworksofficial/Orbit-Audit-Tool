@@ -43,8 +43,11 @@ COUNTRY_MAP = {
     "SE": "Sweden", "CH": "Switzerland", "SY": "Syrian Arab Republic", "TW": "Taiwan", "TJ": "Tajikistan", "TZ": "Tanzania",
     "TH": "Thailand", "TL": "Timor-Leste", "TG": "Togo", "TK": "Tokelau", "TO": "Tonga", "TT": "Trinidad and Tobago",
     "TN": "Tunisia", "TR": "Turkey", "TM": "Turkmenistan", "TC": "Turks and Caicos Islands", "TV": "Tuvalu", "UG": "Uganda",
-    "UA": "Ukraine", "AE": "United Arab Emirates", "GB": "United Kingdom", "UK": "United Kingdom", "UM": "United States Minor Outlying Islands",
-    "US": "United States", "USA": "United States", "UY": "Uruguay", "UZ": "Uzbekistan", "VU": "Vanuatu", "VE": "Venezuela",
+    "UA": "Ukraine", "AE": "United Arab Emirates", "UAE": "United Arab Emirates", "U.A.E.": "United Arab Emirates",
+    "GB": "United Kingdom", "UK": "United Kingdom", "U.K.": "United Kingdom", "ENGLAND": "United Kingdom",
+    "US": "United States", "USA": "United States", "U.S.A.": "United States", "AMERICA": "United States",
+    "SA": "Saudi Arabia", "KSA": "Saudi Arabia", "K.S.A.": "Saudi Arabia",
+    "UM": "United States Minor Outlying Islands", "UY": "Uruguay", "UZ": "Uzbekistan", "VU": "Vanuatu", "VE": "Venezuela",
     "VN": "Viet Nam", "VG": "Virgin Islands (British)", "VI": "Virgin Islands (U.S.)", "WF": "Wallis and Futuna",
     "EH": "Western Sahara", "YE": "Yemen", "ZM": "Zambia", "ZW": "Zimbabwe"
 }
@@ -97,7 +100,7 @@ def is_matching_business(target_name: str, profile_title: str) -> bool:
     jaccard = len(intersection) / len(union) if union else 0
     return jaccard >= 0.30
 
-async def analyze_reputation(business_name: str, city: str, country: str = "United States") -> dict:
+async def analyze_reputation(business_name: str, city: str, country: str = "United States", url: str = "") -> dict:
     """
     Module 4: Reputation (10% weight)
     Calls DataForSEO Maps API with the business name and city.
@@ -106,13 +109,28 @@ async def analyze_reputation(business_name: str, city: str, country: str = "Unit
     country_clean = (country or "").strip().upper()
     full_country_name = COUNTRY_MAP.get(country_clean, country)
     
+    # If country is blank, infer from domain TLD in business_name or url
+    if not full_country_name and not city:
+        TLD_MAP = {
+            ".ae": "United Arab Emirates", ".ca": "Canada", ".uk": "United Kingdom",
+            ".au": "Australia", ".in": "India", ".pk": "Pakistan", ".de": "Germany",
+            ".fr": "France", ".es": "Spain", ".it": "Italy", ".nl": "Netherlands",
+            ".sg": "Singapore", ".nz": "New Zealand", ".za": "South Africa",
+            ".mx": "Mexico", ".br": "Brazil", ".us": "United States"
+        }
+        combined_text = (business_name + " " + url).lower()
+        for tld, mapped_c in TLD_MAP.items():
+            if tld in combined_text:
+                full_country_name = mapped_c
+                break
+    
     # Establish search payloads to try in sequence
     payloads = []
     if full_country_name:
-        payloads.append({"keyword": f"{business_name} {city}", "location_name": full_country_name, "language_code": "en"})
+        payloads.append({"keyword": f"{business_name} {city}".strip(), "location_name": full_country_name, "language_code": "en"})
     if city:
-        payloads.append({"keyword": f"{business_name} {city}", "location_name": city, "language_code": "en"})
-    payloads.append({"keyword": f"{business_name} {city}", "language_code": "en"})
+        payloads.append({"keyword": f"{business_name} {city}".strip(), "location_name": city, "language_code": "en"})
+    payloads.append({"keyword": f"{business_name} {city}".strip(), "language_code": "en"})
 
     star_rating = 0.0
     review_count = 0

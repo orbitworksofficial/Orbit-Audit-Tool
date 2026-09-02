@@ -24,7 +24,7 @@ async def detect_category(url: str, fallback: str) -> str:
     
     # 1. Try crawling with standard httpx
     try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
+        async with httpx.AsyncClient(timeout=10.0, verify=False) as client:
             headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
             resp = await client.get(url, headers=headers, follow_redirects=True)
             if resp.status_code == 200:
@@ -104,7 +104,7 @@ async def run_audit_orchestrator(business_name: str, url: str, city: str, countr
         analyze_aeo_geo(url, business_name, category, city),
         analyze_website_health(url),
         analyze_seo(url),
-        analyze_reputation(business_name, city, country),
+        analyze_reputation(business_name, city, country, url=url),
         analyze_competitors(category, city, target_domain=target_domain, business_name=business_name),
         analyze_social(url, business_name, city, category=category)
     )
