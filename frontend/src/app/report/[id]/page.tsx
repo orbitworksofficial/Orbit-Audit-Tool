@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
+import { verifyReportToken } from '@/lib/report-token';
 import ReportDocument from '@/components/report/ReportDocument';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
@@ -13,14 +15,27 @@ export const metadata = { title: 'Your audit report — OrbitScanner' };
  */
 export default async function ReportPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ t?: string }>;
 }) {
   const { id } = await params;
-  const supabase = await createClient();
+  const { t } = await searchParams;
 
-  // RLS restricts this to rows owned by the signed-in user.
-  const { data, error } = await supabase
+  // Two ways in. Signed-in owners read through RLS as usual. Guests arrive
+  // from the report email holding a signed token — their scan has no user_id,
+  // so RLS would hide it from them and the link would 404.
+  const hasValidToken = verifyReportToken(id, t);
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const db = hasValidToken ? createAdminClient() : supabase;
+
+  const { data, error } = await db
     .from('audit_reports')
     .select('id, raw_data, ai_insights')
     .eq('id', id)
@@ -37,7 +52,8 @@ export default async function ReportPage({
 
   return (
     <>
-      <SiteHeader signedIn />
+      {/* A guest arriving by email token has no account yet. */}
+      <SiteHeader signedIn={Boolean(user)} />
       <main className="relative min-h-screen px-5 pb-20 pt-32 sm:px-6">
         <div
           className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[900px] max-w-[95vw] -translate-x-1/2 blur-3xl"

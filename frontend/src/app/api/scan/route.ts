@@ -8,6 +8,7 @@ import { computeFingerprint, type ClientSignals } from '@/lib/fingerprint';
 import { captureLead, completeLead } from '@/lib/leads';
 import { sendReportEmail } from '@/lib/email/send';
 import { SITE_URL } from '@/lib/links';
+import { signReportId } from '@/lib/report-token';
 
 /** A full audit runs 100-155s of live API calls in Python. */
 export const maxDuration = 300;
@@ -149,8 +150,10 @@ export async function POST(request: Request) {
       businessName: audit.result.business_name,
       result: audit.result,
       ai: audit.ai_analysis,
+      // Signed so the link opens without an account: a guest scan has no
+      // user_id, so RLS alone would 404 the very report we just emailed them.
       reportUrl: reportId
-        ? `${SITE_URL}/report/${reportId}`
+        ? `${SITE_URL}/report/${reportId}?t=${signReportId(reportId)}`
         : `${SITE_URL}/scan`,
     });
 

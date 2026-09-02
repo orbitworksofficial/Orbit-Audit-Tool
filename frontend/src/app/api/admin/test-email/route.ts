@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/admin';
 import { sendReportEmail, verifySmtp } from '@/lib/email/send';
 import { SITE_URL } from '@/lib/links';
+import { signReportId } from '@/lib/report-token';
 import type { AuditResult, AiAnalysis } from '@/types/audit';
 
 /**
@@ -56,7 +57,8 @@ export async function POST(request: Request) {
     ai: row.ai_insights
       ? ({ deep_analysis: row.ai_insights } as AiAnalysis)
       : undefined,
-    reportUrl: `${SITE_URL}/report/${row.id}`,
+    // Signed, so the test email matches what a real scan sends.
+    reportUrl: `${SITE_URL}/report/${row.id}?t=${signReportId(row.id)}`,
   });
 
   return NextResponse.json(outcome);
