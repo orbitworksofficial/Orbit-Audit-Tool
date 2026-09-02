@@ -6,6 +6,41 @@ import os
 import json
 from dataforseo_client import dataforseo_post
 
+async def discover_social_profiles_via_perplexity(business_name: str, url: str, city: str) -> dict:
+    api_key = os.getenv("PERPLEXITY_API_KEY")
+    if not api_key:
+        return {}
+        
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    
+    q = (f"Search the web to find the official social media profile URLs (LinkedIn, Facebook, Instagram, Twitter/X, YouTube) "
+         f"for the business '{business_name}' with website '{url}' located in '{city}'. "
+         f"Ignore similarly named businesses in other cities or industries. "
+         f"Return a JSON object with keys: LinkedIn, Facebook, Instagram, Twitter/X, YouTube. "
+         f"The values should be the profile URLs, or null if not found.")
+         
+    payload = {
+        "model": "sonar",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant. Output exactly JSON and nothing else."},
+            {"role": "user", "content": q}
+        ]
+    }
+    
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post("https://api.perplexity.ai/chat/completions", headers=headers, json=payload)
+            if resp.status_code == 200:
+                answer = resp.json()["choices"][0]["message"]["content"]
+                answer = answer.strip().removeprefix("```json").removesuffix("```").strip()
+                return json.loads(answer)
+    except Exception as e:
+        print(f"Perplexity Social Discovery Error: {repr(e)}")
+    return {}
+
 async def check_perplexity_social_activity(business_name: str, url: str, profile_urls: dict, business_category: str) -> dict:
     api_key = os.getenv("PERPLEXITY_API_KEY")
     if not api_key:
@@ -66,7 +101,7 @@ async def analyze_social(url: str, business_name: str, city: str, category: str 
     }
     
     try:
-        async with httpx.AsyncClient(timeout=45.0) as client:
+        async with httpx.AsyncClient(timeout=45.0, verify=False) as client:
             # Add a user agent to avoid basic blocks
             headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
             response = await client.get(url, headers=headers, follow_redirects=True)
@@ -98,6 +133,17 @@ async def analyze_social(url: str, business_name: str, city: str, category: str 
                             platforms_found.add(platform_name)
     except Exception as e:
         print(f"Social Scraper Error for {url}: {repr(e)}")
+
+    # Fallback 1: If direct homepage crawling failed, ask Perplexity to discover the profiles via web search
+    if not platforms_found:
+        print(f"Direct crawl failed or returned empty. Querying Perplexity to discover social profiles for {business_name}...")
+        discovered = await discover_social_profiles_via_perplexity(business_name, url, city)
+        if discovered:
+            for platform, p_url in discovered.items():
+                if p_url and platform in all_platforms:
+                    if any(domain in p_url.lower() for domain in all_platforms[platform]):
+                        platforms_found.add(platform)
+                        profile_urls[platform] = p_url
 
     # Cross-check with DataForSEO Business Data
     try:
