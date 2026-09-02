@@ -1,6 +1,3 @@
-# ─── UPDATED REPUTATION NAME MATCHING CODE ──────────────────────────────
-# File: modules/module4_reputation.py
-
 import asyncio
 import re
 from dataforseo_client import dataforseo_post
@@ -52,7 +49,6 @@ COUNTRY_MAP = {
     "EH": "Western Sahara", "YE": "Yemen", "ZM": "Zambia", "ZW": "Zimbabwe"
 }
 
-
 def clean_name_tokens(text: str) -> set:
     text = text.lower().strip()
     for prefix in ['https://', 'http://', 'www.']:
@@ -100,7 +96,6 @@ def is_matching_business(target_name: str, profile_title: str) -> bool:
         return True
     jaccard = len(intersection) / len(union) if union else 0
     return jaccard >= 0.30
-
 
 async def analyze_reputation(business_name: str, city: str, country: str = "United States") -> dict:
     """
@@ -203,4 +198,17 @@ async def analyze_reputation(business_name: str, city: str, country: str = "Unit
         "sentiment_summary": sentiment_summary,
         "top_2_gaps": top_2_gaps[:2],
         "data_source": "live"
+    }
+
+def _mock_response() -> dict:
+    return {
+        "reputation_score": 0,
+        "star_rating": 0.0,
+        "review_count": 0,
+        "profile_completeness": 0,
+        "sentiment_summary": "No profile found (fetch failed).",
+        "top_2_gaps": [
+            "Data fetch failed."
+        ],
+        "data_source": "fallback"
     }
